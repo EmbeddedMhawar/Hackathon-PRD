@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenizeRWA - Submit New Asset</title>
+    <link rel="icon" href="data:image/x-icon;base64,">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" as="style" onload="this.rel='stylesheet'">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #019863;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --input-focus-border: #019863;
+            --button-hover-bg: #017a50;
+            --light-bg: #f9fafb;
+            --white-bg: #ffffff;
+            --disabled-bg: #d1d5db;
+            --checkbox-tick-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(255,255,255)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath d=%27M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z%27/%3e%3c/svg%3e');
+        }
+        .form-input {
+            @apply w-full rounded-lg border border-[var(--border-color)] bg-[var(--input-bg)] p-3 text-base text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:border-[var(--input-focus-border)] focus:ring-1 focus:ring-[var(--input-focus-border)] transition-colors duration-200;
+        }
+        .form-checkbox {
+            @apply h-5 w-5 rounded border-[var(--border-color)] bg-transparent text-[var(--primary-color)] checked:bg-[var(--primary-color)] checked:border-[var(--primary-color)] checked:bg-[image:var(--checkbox-tick-svg)] focus:ring-0 focus:ring-offset-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)];
+        }
+        .file-input-label {
+            @apply block w-full cursor-pointer rounded-lg border border-dashed border-[var(--border-color)] bg-[var(--input-bg)] p-4 text-sm text-center text-[var(--text-secondary)] hover:bg-gray-100 hover:border-[var(--input-focus-border)];
+        }
+        .progress-bar-container {
+            @apply w-full bg-gray-200 rounded-full h-2.5 mb-2;
+        }
+        .progress-bar {
+            @apply bg-[var(--primary-color)] h-2.5 rounded-full transition-all duration-500 ease-out;
+        }
+        .step-header { @apply text-xl font-semibold mb-1 text-[var(--text-primary)]; }
+        .step-subheader { @apply text-sm text-[var(--text-secondary)] mb-6; }
+        .nav-button {
+            @apply py-2.5 px-5 text-sm font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+        }
+        .primary-nav-button { @apply text-white bg-[var(--primary-color)] hover:bg-[var(--button-hover-bg)] disabled:bg-[var(--disabled-bg)]; }
+        .secondary-nav-button { @apply text-[var(--text-primary)] bg-gray-100 hover:bg-gray-200 border border-[var(--border-color)] disabled:bg-gray-50; }
+        .summary-label { @apply font-medium text-[var(--text-primary)]; }
+        .summary-value { @apply text-[var(--text-secondary)] break-words; }
+
+    </style>
+</head>
+<body class="bg-[var(--light-bg)] text-[var(--text-primary)]" style="font-family: Inter, 'Noto Sans', sans-serif;">
+    <!-- Main Header -->
+    <header class="bg-[var(--white-bg)] shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                        <span class="text-xl font-bold tracking-tight text-[var(--text-primary)]">TokenizeRWA</span>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="#" class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)] mr-4">Asset Owner Portal</a>
+                    <!-- User avatar/menu can go here if needed -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="w-full max-w-2xl mx-auto bg-[var(--white-bg)] p-6 sm:p-8 shadow-xl rounded-lg">
+            <header class="mb-8 text-center">
+                <h1 class="text-3xl font-bold tracking-tight text-[var(--text-primary)]">Submit New Asset</h1>
+                <p class="mt-2 text-base text-[var(--text-secondary)]">Complete the steps below to submit your asset for tokenization.</p>
+            </header>
+
+            <div class="progress-bar-container">
+                <div id="progressBar" class="progress-bar" style="width: 20%;"></div>
+            </div>
+            <div id="stepIndicator" class="text-center text-sm text-[var(--text-secondary)] mb-8 font-medium">Step 1 of 5: Basic Information</div>
+
+            <form id="assetSubmissionForm" class="space-y-8">
+                <!-- Step 1: Basic Asset Information -->
+                <div id="step1" class="step-content space-y-6">
+                    <div><h3 class="step-header">Basic Asset Information</h3><p class="step-subheader">Provide fundamental details about your asset.</p></div>
+                    <div><label for="assetName" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Asset Name</label><input type="text" name="assetName" id="assetName" class="form-input" placeholder="e.g., Downtown Office Complex" required></div>
+                    <div>
+                        <label for="assetType" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Asset Type</label>
+                        <select id="assetType" name="assetType" class="form-input" required>
+                            <option value="">Select asset type</option>
+                            <option value="Real Estate">Real Estate</option>
+                            <option value="Art">Art</option>
+                            <option value="Collectible">Collectible</option>
+                            <option value="Debt Instrument">Debt Instrument</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div><label for="assetDescription" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Detailed Description</label><textarea name="assetDescription" id="assetDescription" class="form-input" placeholder="Describe your asset, its features, condition, etc." rows="4" required></textarea></div>
+                    <div><label for="assetLocation" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Location of Asset</label><input type="text" name="assetLocation" id="assetLocation" class="form-input" placeholder="Full address or specific location identifiers" required></div>
+                </div>
+
+                <!-- Step 2: Valuation & Financials -->
+                <div id="step2" class="step-content space-y-6 hidden">
+                    <div><h3 class="step-header">Valuation & Financials</h3><p class="step-subheader">Provide financial details and supporting valuation documents.</p></div>
+                    <div class="flex items-end gap-2">
+                        <div class="flex-grow"><label for="assetValue" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Current Estimated Value</label><input type="number" name="assetValue" id="assetValue" class="form-input" placeholder="e.g., 1000000" required></div>
+                        <div><label for="assetCurrency" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Currency</label><select id="assetCurrency" name="assetCurrency" class="form-input"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option></select></div>
+                    </div>
+                    <div>
+                        <label for="valuationBasis" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Basis of Valuation</label>
+                        <select id="valuationBasis" name="valuationBasis" class="form-input" required><option value="">Select basis</option><option value="Professional Appraisal">Professional Appraisal</option><option value="Market Comps">Market Comps</option><option value="Other">Other</option></select>
+                    </div>
+                    <div><label for="valuationReport" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Upload Valuation Report/Proof</label><input type="file" name="valuationReport" id="valuationReport" class="hidden" accept=".pdf,.doc,.docx,.jpg,.png"><label for="valuationReport" class="file-input-label">Click to upload valuation document</label><p id="valuationReportName" class="text-xs mt-1 text-[var(--text-secondary)]"></p></div>
+                    <div><label for="incomeDetails" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Income Generation Details (if applicable)</label><textarea name="incomeDetails" id="incomeDetails" class="form-input" placeholder="e.g., rental income, yield information" rows="3"></textarea></div>
+                </div>
+
+                <!-- Step 3: Legal & Ownership -->
+                <div id="step3" class="step-content space-y-6 hidden">
+                    <div><h3 class="step-header">Legal & Ownership</h3><p class="step-subheader">Upload proof of ownership and provide legal details.</p></div>
+                    <div><label for="proofOwnership" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Proof of Ownership Documents (multiple allowed)</label><input type="file" name="proofOwnership" id="proofOwnership" class="hidden" accept=".pdf,.doc,.docx,.jpg,.png" multiple><label for="proofOwnership" class="file-input-label">Click to upload ownership documents</label><div id="proofOwnershipNames" class="text-xs mt-1 text-[var(--text-secondary)]"></div></div>
+                    <div><label for="legalEntityName" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Legal Entity Name (if applicable)</label><input type="text" name="legalEntityName" id="legalEntityName" class="form-input" placeholder="e.g., My Asset Holding LLC"></div>
+                    <div><label for="encumbrances" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Encumbrances or Liens</label><textarea name="encumbrances" id="encumbrances" class="form-input" placeholder="Describe any liens or encumbrances on the asset" rows="3"></textarea></div>
+                    <div><label for="encumbrancesDocs" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Supporting Documents for Encumbrances (optional)</label><input type="file" name="encumbrancesDocs" id="encumbrancesDocs" class="hidden" accept=".pdf,.doc,.docx,.jpg,.png" multiple><label for="encumbrancesDocs" class="file-input-label">Click to upload supporting documents</label><div id="encumbrancesDocsNames" class="text-xs mt-1 text-[var(--text-secondary)]"></div></div>
+                    <div><label for="legalRepContact" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Legal Representative Contact (optional)</label><input type="text" name="legalRepContact" id="legalRepContact" class="form-input" placeholder="Name, email, or phone of legal counsel"></div>
+                </div>
+
+                <!-- Step 4: Supporting Media (Optional) -->
+                <div id="step4" class="step-content space-y-6 hidden">
+                     <div><h3 class="step-header">Supporting Media (Optional)</h3><p class="step-subheader">Upload images or videos of your asset.</p></div>
+                    <div><label for="assetImages" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Images of the Asset (multiple allowed)</label><input type="file" name="assetImages" id="assetImages" class="hidden" accept="image/*" multiple><label for="assetImages" class="file-input-label">Click to upload asset images</label><div id="assetImagesNames" class="text-xs mt-1 text-[var(--text-secondary)]"></div><div id="imagePreviewContainer" class="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-2"></div></div>
+                    <div><label for="assetVideo" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Video or Virtual Tour Link/File</label><input type="text" name="assetVideoLink" id="assetVideoLink" class="form-input mb-2" placeholder="Enter URL (e.g., YouTube, Vimeo)"><span class="text-xs text-[var(--text-secondary)] text-center block">OR</span><input type="file" name="assetVideoFile" id="assetVideoFile" class="hidden" accept="video/*"><label for="assetVideoFile" class="file-input-label mt-2">Click to upload video file</label><p id="assetVideoFileName" class="text-xs mt-1 text-[var(--text-secondary)]"></p></div>
+                </div>
+
+                <!-- Step 5: Review & Submit -->
+                <div id="step5" class="step-content space-y-6 hidden">
+                    <div><h3 class="step-header">Review & Submit</h3><p class="step-subheader">Review all your entered information before submission.</p></div>
+                    <div id="summarySection" class="space-y-4 p-4 border border-[var(--border-color)] rounded-lg bg-slate-50">
+                        <h4 class="text-md font-semibold text-[var(--text-primary)] border-b pb-2">Summary:</h4>
+                        <div><span class="summary-label">Asset Name:</span> <span id="summaryAssetName" class="summary-value"></span></div>
+                        <div><span class="summary-label">Asset Type:</span> <span id="summaryAssetType" class="summary-value"></span></div>
+                        <div><span class="summary-label">Est. Value:</span> <span id="summaryAssetValue" class="summary-value"></span> <span id="summaryAssetCurrency" class="summary-value"></span></div>
+                        <p class="text-xs text-center text-[var(--text-secondary)] pt-2">More fields would be summarized here in a full implementation.</p>
+                    </div>
+                    <div class="flex items-start">
+                        <input id="attestationCheckbox" name="attestationCheckbox" type="checkbox" class="form-checkbox mt-1">
+                        <label for="attestationCheckbox" class="ml-3 text-sm text-[var(--text-primary)]">I attest that the information provided is accurate and I have the legal right to tokenize this asset.</label>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="mt-10 pt-6 border-t border-[var(--border-color)] flex justify-between items-center">
+                    <button type="button" id="prevButton" class="nav-button secondary-nav-button" disabled>Previous</button>
+                    <div id="finalActions" class="hidden">
+                         <button type="button" id="saveDraftButton" class="nav-button secondary-nav-button mr-2">Save as Draft</button>
+                         <button type="submit" id="submitButton" class="nav-button primary-nav-button" disabled>Submit for Review</button>
+                    </div>
+                    <button type="button" id="nextButton" class="nav-button primary-nav-button">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const steps = ['step1', 'step2', 'step3', 'step4', 'step5'];
+        const stepTitles = ['Basic Asset Information', 'Valuation & Financials', 'Legal & Ownership', 'Supporting Media (Optional)', 'Review & Submit'];
+        let currentStep = 0;
+
+        const progressBar = document.getElementById('progressBar');
+        const stepIndicator = document.getElementById('stepIndicator');
+        const form = document.getElementById('assetSubmissionForm');
+        const stepDivs = steps.map(id => document.getElementById(id));
+
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const finalActionsDiv = document.getElementById('finalActions');
+        const saveDraftButton = document.getElementById('saveDraftButton');
+        const submitButton = document.getElementById('submitButton');
+        const attestationCheckbox = document.getElementById('attestationCheckbox');
+
+        function getInputsForStep(stepIndex) {
+            return Array.from(stepDivs[stepIndex].querySelectorAll('input[required], select[required], textarea[required]'));
+        }
+
+        function validateCurrentStepInputs() {
+            if (currentStep === 4) { // Review step has only attestation
+                submitButton.disabled = !attestationCheckbox.checked;
+                return attestationCheckbox.checked;
+            }
+            const currentInputs = getInputsForStep(currentStep);
+            const allValid = currentInputs.every(input => {
+                if (input.type === 'file') return input.files.length > 0 || !input.required; // Allow optional files
+                return input.value.trim() !== '';
+            });
+            if (currentStep < steps.length -1) nextButton.disabled = !allValid;
+            return allValid;
+        }
+
+        function updateStepUI() {
+            stepDivs.forEach((div, index) => div.classList.toggle('hidden', index !== currentStep));
+            const progress = ((currentStep + 1) / steps.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            stepIndicator.textContent = `Step ${currentStep + 1} of ${steps.length}: ${stepTitles[currentStep]}`;
+
+            prevButton.disabled = currentStep === 0;
+            nextButton.classList.toggle('hidden', currentStep === steps.length - 1);
+            finalActionsDiv.classList.toggle('hidden', currentStep !== steps.length - 1);
+
+            if (currentStep === 4) populateSummary();
+            validateCurrentStepInputs(); // Validate inputs whenever step changes
+        }
+
+        function populateSummary() {
+            document.getElementById('summaryAssetName').textContent = document.getElementById('assetName').value || 'N/A';
+            document.getElementById('summaryAssetType').textContent = document.getElementById('assetType').value || 'N/A';
+            document.getElementById('summaryAssetValue').textContent = document.getElementById('assetValue').value || 'N/A';
+            document.getElementById('summaryAssetCurrency').textContent = document.getElementById('assetCurrency').value || 'N/A';
+        }
+
+        stepDivs.forEach((stepDiv, index) => {
+            const inputs = Array.from(stepDiv.querySelectorAll('input, select, textarea'));
+            inputs.forEach(input => {
+                if (input.type === 'file') input.addEventListener('change', validateCurrentStepInputs);
+                else input.addEventListener('input', validateCurrentStepInputs);
+            });
+        });
+        if(attestationCheckbox) attestationCheckbox.addEventListener('change', validateCurrentStepInputs);
+
+
+        nextButton.addEventListener('click', () => {
+            if (validateCurrentStepInputs() && currentStep < steps.length - 1) {
+                currentStep++;
+                updateStepUI();
+            }
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepUI();
+            }
+        });
+
+        saveDraftButton.addEventListener('click', () => alert('Form progress saved as draft (simulated).'));
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            if (validateCurrentStepInputs()) {
+                alert('Asset submitted for review (simulated).');
+                // Actual submission logic here
+            } else {
+                alert('Please complete all required fields and attest before submitting.');
+            }
+        });
+
+        // File input name display logic
+        function handleFileInput(inputId, nameDisplayId, isMultiple = false, previewContainerId = null) {
+            const fileInput = document.getElementById(inputId);
+            const nameDisplay = document.getElementById(nameDisplayId);
+            const previewContainer = previewContainerId ? document.getElementById(previewContainerId) : null;
+
+            if (fileInput && nameDisplay) {
+                fileInput.addEventListener('change', () => {
+                    if (previewContainer) previewContainer.innerHTML = ''; // Clear previous previews
+                    if (fileInput.files.length > 0) {
+                        let fileNames = [];
+                        for (let i = 0; i < fileInput.files.length; i++) {
+                            fileNames.push(fileInput.files[i].name);
+                            if (isMultiple && previewContainer && fileInput.files[i].type.startsWith('image/')) {
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    const img = document.createElement('img');
+                                    img.src = e.target.result;
+                                    img.className = 'h-20 w-20 object-cover rounded border border-[var(--border-color)]';
+                                    previewContainer.appendChild(img);
+                                }
+                                reader.readAsDataURL(fileInput.files[i]);
+                            }
+                        }
+                        nameDisplay.textContent = `Selected: ${fileNames.join(', ')}`;
+                    } else {
+                        nameDisplay.textContent = '';
+                    }
+                    validateCurrentStepInputs(); // Re-validate on file change
+                });
+            }
+        }
+        handleFileInput('valuationReport', 'valuationReportName');
+        handleFileInput('proofOwnership', 'proofOwnershipNames', true);
+        handleFileInput('encumbrancesDocs', 'encumbrancesDocsNames', true);
+        handleFileInput('assetImages', 'assetImagesNames', true, 'imagePreviewContainer');
+        handleFileInput('assetVideoFile', 'assetVideoFileName');
+
+
+        updateStepUI(); // Initialize UI
+    </script>
+</body>
+</html>

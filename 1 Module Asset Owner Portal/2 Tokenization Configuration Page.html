@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenizeRWA - Configure Tokenization</title>
+    <link rel="icon" href="data:image/x-icon;base64,">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" as="style" onload="this.rel='stylesheet'">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #019863;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --input-focus-border: #019863;
+            --button-hover-bg: #017a50;
+            --light-bg: #f9fafb;
+            --white-bg: #ffffff;
+            --disabled-bg: #e5e7eb; /* A slightly darker disabled bg for inputs */
+            --info-icon-color: #9ca3af; /* gray-400 */
+        }
+        .form-input {
+            @apply w-full rounded-lg border border-[var(--border-color)] bg-[var(--input-bg)] p-3 text-base text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:border-[var(--input-focus-border)] focus:ring-1 focus:ring-[var(--input-focus-border)] transition-colors duration-200;
+        }
+        .form-input-disabled {
+            @apply w-full rounded-lg border border-[var(--disabled-bg)] bg-gray-100 p-3 text-base text-gray-500 cursor-not-allowed;
+        }
+        .label-tooltip {
+            @apply flex items-center;
+        }
+        .tooltip-icon {
+            @apply ml-1.5 h-4 w-4 text-[var(--info-icon-color)] cursor-help;
+        }
+        .primary-button {
+            @apply py-2.5 px-5 text-sm font-semibold text-white bg-[var(--primary-color)] hover:bg-[var(--button-hover-bg)] rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+        }
+        .secondary-button {
+            @apply py-2.5 px-5 text-sm font-semibold text-[var(--primary-color)] bg-transparent hover:bg-green-50 rounded-lg border border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-colors duration-200;
+        }
+        .tertiary-button { /* For Calculate/Preview */
+            @apply py-2.5 px-5 text-sm font-semibold text-[var(--text-secondary)] bg-gray-100 hover:bg-gray-200 rounded-lg border border-[var(--border-color)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-200;
+        }
+    </style>
+</head>
+<body class="bg-[var(--light-bg)] text-[var(--text-primary)]" style="font-family: Inter, 'Noto Sans', sans-serif;">
+    <!-- Main Header -->
+    <header class="bg-[var(--white-bg)] shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                        <span class="text-xl font-bold tracking-tight text-[var(--text-primary)]">TokenizeRWA</span>
+                    </div>
+                </div>
+                 <div class="flex items-center">
+                    <a href="0 Asset Owner Dashboard.html" class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)] mr-4">Asset Owner Portal</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="w-full max-w-xl mx-auto bg-[var(--white-bg)] p-6 sm:p-8 shadow-xl rounded-lg">
+            <header class="mb-8">
+                <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)]">Tokenization Configuration</h1>
+                <p class="mt-1 text-sm sm:text-base text-[var(--text-secondary)]">Define the parameters for issuing digital tokens representing your asset.</p>
+            </header>
+
+            <!-- Asset Information Display -->
+            <section class="mb-8 p-4 border border-[var(--border-color)] rounded-lg bg-slate-50">
+                <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Asset for Tokenization</h2>
+                <div>
+                    <label class="block text-xs font-medium text-[var(--text-secondary)]">Asset Name</label>
+                    <p id="assetNameDisplay" class="text-md font-medium text-[var(--text-primary)] py-1">City Center Office Building</p>
+                </div>
+                <div class="mt-2">
+                    <label class="block text-xs font-medium text-[var(--text-secondary)]">Approved Valuation</label>
+                    <p id="assetValueDisplay" class="text-md font-medium text-[var(--text-primary)] py-1">$5,000,000 USD</p>
+                </div>
+            </section>
+
+            <!-- Tokenization Parameters Form -->
+            <form id="tokenizationForm" class="space-y-6">
+                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b pb-3 mb-6">Token Parameters</h2>
+                <div>
+                    <label for="totalSupply" class="label-tooltip block text-sm font-medium text-[var(--text-primary)] mb-1">
+                        Total Token Supply
+                        <svg class="tooltip-icon" title="The total number of tokens that will be created for this asset." xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                    </label>
+                    <input type="number" name="totalSupply" id="totalSupply" class="form-input" placeholder="e.g., 1000000" required>
+                </div>
+
+                <div class="flex items-end gap-2">
+                    <div class="flex-grow">
+                        <label for="pricePerToken" class="label-tooltip block text-sm font-medium text-[var(--text-primary)] mb-1">
+                            Price Per Token
+                            <svg class="tooltip-icon" title="The price for each individual token." xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                        </label>
+                        <input type="number" name="pricePerToken" id="pricePerToken" class="form-input" placeholder="e.g., 5.00" step="0.01" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[var(--text-primary)] mb-1 invisible">Currency</label> <!-- Hidden label for alignment -->
+                        <span class="inline-flex items-center px-3 py-3 rounded-lg border border-[var(--border-color)] bg-gray-100 text-[var(--text-secondary)] text-sm">USD</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="tokenSymbol" class="label-tooltip block text-sm font-medium text-[var(--text-primary)] mb-1">
+                        Token Symbol/Ticker (Max 10 chars)
+                        <svg class="tooltip-icon" title="A short abbreviation for your token (e.g., MYREALT)." xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                    </label>
+                    <input type="text" name="tokenSymbol" id="tokenSymbol" class="form-input uppercase" placeholder="e.g., CCOB" maxlength="10" required>
+                </div>
+
+                <div>
+                    <label for="tokenName" class="label-tooltip block text-sm font-medium text-[var(--text-primary)] mb-1">
+                        Token Name
+                        <svg class="tooltip-icon" title="The full name of your token (e.g., City Center Office Building Token)." xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                    </label>
+                    <input type="text" name="tokenName" id="tokenName" class="form-input" placeholder="e.g., City Center Office Token" required>
+                </div>
+
+                <!-- Optional Parameters Section -->
+                <details class="mt-4 p-4 border border-[var(--border-color)] rounded-lg bg-slate-50/50">
+                    <summary class="text-sm font-medium text-[var(--text-primary)] cursor-pointer hover:text-[var(--primary-color)]">Optional Parameters</summary>
+                    <div class="mt-4 space-y-6">
+                        <div><label for="minInvestment" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Minimum Investment Amount (USD)</label><input type="number" name="minInvestment" id="minInvestment" class="form-input" placeholder="e.g., 500"></div>
+                        <div><label for="maxInvestment" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Maximum Investment Amount per Investor (USD)</label><input type="number" name="maxInvestment" id="maxInvestment" class="form-input" placeholder="e.g., 50000"></div>
+                        <div><label for="saleStartDate" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Sale Start Date & Time (Placeholder)</label><input type="text" name="saleStartDate" id="saleStartDate" class="form-input" placeholder="YYYY-MM-DD HH:MM"></div>
+                        <div><label for="saleEndDate" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Sale End Date & Time (Placeholder)</label><input type="text" name="saleEndDate" id="saleEndDate" class="form-input" placeholder="YYYY-MM-DD HH:MM"></div>
+                        <div>
+                            <label for="lockupPeriod" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Lock-up Period for Tokens</label>
+                            <select id="lockupPeriod" name="lockupPeriod" class="form-input">
+                                <option value="None">None</option><option value="3 Months">3 Months</option><option value="6 Months">6 Months</option><option value="1 Year">1 Year</option><option value="2 Years">2 Years</option>
+                            </select>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Preview Area -->
+                <div class="my-6 pt-4">
+                     <button type="button" id="previewButton" class="tertiary-button w-full sm:w-auto">Preview Tokenomics</button>
+                    <div id="previewArea" class="mt-4 p-4 border border-dashed border-[var(--border-color)] rounded-lg bg-slate-50 min-h-[50px]">
+                        <p class="text-sm text-[var(--text-secondary)]">Click "Preview Tokenomics" to see calculated values.</p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-10 pt-6 border-t border-[var(--border-color)] flex flex-col sm:flex-row justify-end items-center space-y-3 sm:space-y-0 sm:space-x-3">
+                    <button type="button" id="saveConfigButton" class="secondary-button w-full sm:w-auto">Save Configuration</button>
+                    <button type="submit" id="submitIssuanceButton" class="primary-button w-full sm:w-auto" disabled>Submit for Token Issuance</button>
+                </div>
+            </form>
+        </div>
+    </div>
+     <footer class="bg-[var(--white-bg)] border-t border-[var(--border-color)] mt-auto">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-[var(--text-secondary)]">
+            © <script>document.write(new Date().getFullYear())</script> TokenizeRWA. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        const form = document.getElementById('tokenizationForm');
+        const totalSupplyInput = document.getElementById('totalSupply');
+        const pricePerTokenInput = document.getElementById('pricePerToken');
+        const tokenSymbolInput = document.getElementById('tokenSymbol');
+        const tokenNameInput = document.getElementById('tokenName');
+        const previewButton = document.getElementById('previewButton');
+        const previewArea = document.getElementById('previewArea');
+        const submitIssuanceButton = document.getElementById('submitIssuanceButton');
+        const saveConfigButton = document.getElementById('saveConfigButton');
+
+        function validateForm() {
+            let isValid = true;
+            // Total Supply: required, number, > 0
+            if (!totalSupplyInput.value || parseFloat(totalSupplyInput.value) <= 0) {
+                totalSupplyInput.classList.add('border-red-500');
+                isValid = false;
+            } else {
+                totalSupplyInput.classList.remove('border-red-500');
+            }
+
+            // Price Per Token: required, number, > 0
+            if (!pricePerTokenInput.value || parseFloat(pricePerTokenInput.value) <= 0) {
+                pricePerTokenInput.classList.add('border-red-500');
+                isValid = false;
+            } else {
+                pricePerTokenInput.classList.remove('border-red-500');
+            }
+
+            // Token Symbol: required, text, max 10 chars (HTML handles max length)
+            if (!tokenSymbolInput.value.trim()) {
+                tokenSymbolInput.classList.add('border-red-500');
+                isValid = false;
+            } else {
+                tokenSymbolInput.classList.remove('border-red-500');
+            }
+            tokenSymbolInput.value = tokenSymbolInput.value.toUpperCase(); // Force uppercase
+
+            // Token Name: required, text
+            if (!tokenNameInput.value.trim()) {
+                tokenNameInput.classList.add('border-red-500');
+                isValid = false;
+            } else {
+                tokenNameInput.classList.remove('border-red-500');
+            }
+
+            submitIssuanceButton.disabled = !isValid;
+            return isValid;
+        }
+
+        form.addEventListener('input', validateForm); // Validate on any input change
+
+        previewButton.addEventListener('click', () => {
+            const supply = parseFloat(totalSupplyInput.value);
+            const price = parseFloat(pricePerTokenInput.value);
+
+            if (supply > 0 && price > 0) {
+                const totalCapital = (supply * price).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                previewArea.innerHTML = `
+                    <dl class="space-y-1">
+                        <div><dt class="text-sm font-medium text-[var(--text-secondary)]">Total Token Supply:</dt><dd class="text-sm font-semibold text-[var(--text-primary)]">${supply.toLocaleString()}</dd></div>
+                        <div><dt class="text-sm font-medium text-[var(--text-secondary)]">Price Per Token:</dt><dd class="text-sm font-semibold text-[var(--text-primary)]">${price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</dd></div>
+                        <hr class="border-t border-dashed my-2">
+                        <div><dt class="text-sm font-medium text-[var(--text-secondary)]">Estimated Total Capital to be Raised:</dt><dd class="text-md font-bold text-[var(--primary-color)]">${totalCapital}</dd></div>
+                    </dl>
+                `;
+            } else {
+                previewArea.innerHTML = '<p class="text-sm text-red-600">Please enter valid Total Token Supply and Price Per Token to see a preview.</p>';
+            }
+            validateForm(); // Re-validate to ensure submit button state is correct
+        });
+
+        saveConfigButton.addEventListener('click', () => {
+            alert('Configuration saved (simulated).');
+            // Add actual save logic here
+        });
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            if (validateForm()) {
+                alert('Submitting for Token Issuance (simulated).');
+                // Actual submission logic here
+            } else {
+                alert('Please correct the errors in the form before submitting.');
+            }
+        });
+
+        // Initial validation check
+        validateForm();
+    </script>
+</body>
+</html>
