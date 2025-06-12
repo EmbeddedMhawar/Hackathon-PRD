@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenizeRWA - Marketplace</title>
+    <link rel="icon" href="data:image/x-icon;base64,">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" as="style" onload="this.rel='stylesheet'">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #019863;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --light-bg: #f9fafb;
+            --white-bg: #ffffff;
+            --link-color: var(--primary-color);
+            --link-hover-color: #017a50;
+            --button-hover-bg: #017a50;
+            --checkbox-tick-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(255,255,255)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath d=%27M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z%27/%3e%3c/svg%3e');
+        }
+        .form-input {
+            @apply w-full rounded-lg border border-[var(--border-color)] bg-[var(--input-bg)] p-3 text-base text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:border-[var(--link-hover-color)] focus:ring-1 focus:ring-[var(--link-hover-color)] transition-colors duration-200;
+        }
+         .form-checkbox {
+            @apply h-4 w-4 rounded border-[var(--border-color)] bg-transparent text-[var(--primary-color)] checked:bg-[var(--primary-color)] checked:border-[var(--primary-color)] checked:bg-[image:var(--checkbox-tick-svg)] focus:ring-0 focus:ring-offset-0 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-[var(--primary-color)];
+        }
+        .asset-card {
+            @apply bg-[var(--white-bg)] shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl;
+        }
+        .asset-card-image {
+            @apply w-full h-48 object-cover; /* Fixed height for images */
+        }
+        .asset-card-button {
+            @apply mt-4 w-full text-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-[var(--primary-color)] hover:bg-[var(--link-hover-color)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-colors duration-200;
+        }
+        .filter-section-title {
+            @apply text-sm font-semibold text-[var(--text-primary)] mb-2 uppercase tracking-wider;
+        }
+        .pagination-button {
+            @apply inline-flex items-center justify-center px-3 py-1.5 border border-[var(--border-color)] text-sm font-medium rounded-md text-[var(--text-secondary)] bg-[var(--white-bg)] hover:bg-gray-50 transition-colors;
+        }
+        .pagination-button.active {
+            @apply bg-[var(--primary-color)] text-white border-[var(--primary-color)];
+        }
+    </style>
+</head>
+<body class="bg-[var(--light-bg)] text-[var(--text-primary)]" style="font-family: Inter, 'Noto Sans', sans-serif;">
+    <div class="flex min-h-screen flex-col">
+        <!-- Main Header -->
+        <header class="bg-[var(--white-bg)] shadow-md sticky top-0 z-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                             <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                            <span class="text-xl font-bold tracking-tight text-[var(--text-primary)]">TokenizeRWA</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <a href="0 Investor Dashboard.html" class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)] mr-4">Investor Portal</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Sidebar for Filters -->
+                <aside class="lg:w-1/4 xl:w-1/5 space-y-6">
+                    <div class="bg-[var(--white-bg)] p-5 shadow rounded-lg">
+                        <h3 class="filter-section-title mb-4">Filter by Asset Type</h3>
+                        <div class="space-y-2">
+                            <div><label class="flex items-center text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"><input type="checkbox" class="form-checkbox mr-2 filter-option" data-filter-type="assetType" value="all" checked> All Types</label></div>
+                            <div><label class="flex items-center text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"><input type="checkbox" class="form-checkbox mr-2 filter-option" data-filter-type="assetType" value="Real Estate"> Real Estate</label></div>
+                            <div><label class="flex items-center text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"><input type="checkbox" class="form-checkbox mr-2 filter-option" data-filter-type="assetType" value="Art"> Art</label></div>
+                            <div><label class="flex items-center text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"><input type="checkbox" class="form-checkbox mr-2 filter-option" data-filter-type="assetType" value="Renewables"> Renewables</label></div>
+                            <div><label class="flex items-center text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"><input type="checkbox" class="form-checkbox mr-2 filter-option" data-filter-type="assetType" value="Collectibles"> Collectibles</label></div>
+                        </div>
+                    </div>
+                    <div class="bg-[var(--white-bg)] p-5 shadow rounded-lg">
+                        <h3 class="filter-section-title mb-4">Filter by Investment Range</h3>
+                        <div class="space-y-2">
+                            <div><label class="flex items-center text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"><input type="radio" name="investmentRange" class="form-checkbox mr-2 filter-option" data-filter-type="investmentRange" value="all" checked> Any Amount</label></div>
+                            <div><label class="flex items-center text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"><input type="radio" name="investmentRange" class="form-checkbox mr-2 filter-option" data-filter-type="investmentRange" value="0-1000"> $0 - $1,000</label></div>
+                            <div><label class="flex items-center text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"><input type="radio" name="investmentRange" class="form-checkbox mr-2 filter-option" data-filter-type="investmentRange" value="1001-5000"> $1,001 - $5,000</label></div>
+                            <div><label class="flex items-center text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"><input type="radio" name="investmentRange" class="form-checkbox mr-2 filter-option" data-filter-type="investmentRange" value="5000+"> $5,000+</label></div>
+                        </div>
+                    </div>
+                     <div class="bg-[var(--white-bg)] p-5 shadow rounded-lg">
+                        <h3 class="filter-section-title mb-4">Other Filters (Placeholder)</h3>
+                        <p class="text-xs text-[var(--text-secondary)]">Risk Profile, Expected Yield, Location filters would go here.</p>
+                    </div>
+                </aside>
+
+                <!-- Asset Listing Area -->
+                <div class="flex-1">
+                    <div class="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="relative flex-grow w-full sm:w-auto">
+                            <input type="search" id="searchAssets" placeholder="Search assets by name, type, or keyword..." class="form-input pl-10">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg></div>
+                        </div>
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <select id="sortAssets" class="form-input text-sm py-2.5">
+                                <option value="newest">Sort by: Newest</option>
+                                <option value="endingSoon">Sort by: Ending Soon</option>
+                                <option value="highestYield">Sort by: Highest Yield</option>
+                                <option value="lowestPrice">Sort by: Lowest Price</option>
+                                <option value="mostPopular">Sort by: Most Popular</option>
+                            </select>
+                            <!-- Optional View Toggle Placeholder -->
+                            <!-- <div class="flex gap-1 p-1 bg-gray-200 rounded-md">
+                                <button class="p-1.5 rounded-md bg-[var(--primary-color)] text-white"><svg ... grid icon ...></svg></button>
+                                <button class="p-1.5 rounded-md hover:bg-gray-300"><svg ... list icon ...></svg></button>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div id="assetGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <!-- Sample Asset Cards (Repeat 6-8 times with different data) -->
+                        <div class="asset-card">
+                            <img src="https://via.placeholder.com/400x300.png/019863/FFFFFF?text=Office+Building" alt="Luxury Condo Development" class="asset-card-image">
+                            <div class="p-5">
+                                <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-1">Luxury Condo Development</h3>
+                                <p class="text-xs text-[var(--text-secondary)] mb-2">High-yield residential property in downtown.</p>
+                                <div class="space-y-1 text-sm">
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Token Price:</strong> $150.00</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $3,000,000</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> 8.5% p.a.</p>
+                                </div>
+                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET001">View Details</button>
+                            </div>
+                        </div>
+                        <div class="asset-card">
+                            <img src="https://via.placeholder.com/400x300.png/6b7280/FFFFFF?text=Modern+Art+Piece" alt="Rare Art Piece" class="asset-card-image">
+                            <div class="p-5">
+                                <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-1">"Abstract Future" Painting</h3>
+                                <p class="text-xs text-[var(--text-secondary)] mb-2">Unique artwork by a renowned modern artist.</p>
+                                <div class="space-y-1 text-sm">
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Token Price:</strong> $50.00</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $250,000</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> N/A (Growth)</p>
+                                </div>
+                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET002">View Details</button>
+                            </div>
+                        </div>
+                        <div class="asset-card">
+                            <img src="https://via.placeholder.com/400x300.png/019863/FFFFFF?text=Solar+Farm+Project" alt="Solar Farm Project" class="asset-card-image">
+                            <div class="p-5">
+                                <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-1">GreenEnergy Solar Farm</h3>
+                                <p class="text-xs text-[var(--text-secondary)] mb-2">Investment in a sustainable energy project.</p>
+                                <div class="space-y-1 text-sm">
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Token Price:</strong> $10.00</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $1,000,000</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> 12% p.a.</p>
+                                </div>
+                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET003">Invest Now</button>
+                            </div>
+                        </div>
+                         <div class="asset-card">
+                            <img src="https://via.placeholder.com/400x300.png/6b7280/FFFFFF?text=Commercial+Plaza" alt="Commercial Plaza" class="asset-card-image">
+                            <div class="p-5">
+                                <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-1">City Center Plaza</h3>
+                                <p class="text-xs text-[var(--text-secondary)] mb-2">Prime commercial real estate with stable tenants.</p>
+                                <div class="space-y-1 text-sm">
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Token Price:</strong> $1000.00</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $10,000,000</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> 7.0% p.a.</p>
+                                </div>
+                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET004">View Details</button>
+                            </div>
+                        </div>
+                        <div class="asset-card">
+                            <img src="https://via.placeholder.com/400x300.png/019863/FFFFFF?text=Vintage+Car" alt="Vintage Car" class="asset-card-image">
+                            <div class="p-5">
+                                <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-1">Classic Roadster 1955</h3>
+                                <p class="text-xs text-[var(--text-secondary)] mb-2">Rare collectible vintage automobile.</p>
+                                <div class="space-y-1 text-sm">
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Token Price:</strong> $25.00</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $150,000</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> Collector's Item</p>
+                                </div>
+                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET005">View Details</button>
+                            </div>
+                        </div>
+                         <div class="asset-card">
+                            <img src="https://via.placeholder.com/400x300.png/6b7280/FFFFFF?text=Community+Housing" alt="Community Housing Project" class="asset-card-image">
+                            <div class="p-5">
+                                <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-1">Affordable Housing Bond</h3>
+                                <p class="text-xs text-[var(--text-secondary)] mb-2">Social impact investment in community housing.</p>
+                                <div class="space-y-1 text-sm">
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Token Price:</strong> $5.00</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $500,000</p>
+                                    <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> 4.5% p.a.</p>
+                                </div>
+                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET006">Invest Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav class="mt-10 flex items-center justify-between border-t border-[var(--border-color)] pt-6" aria-label="Pagination">
+                        <div class="hidden sm:block"><p class="text-sm text-[var(--text-secondary)]">Showing <span class="font-medium">1</span> to <span class="font-medium">6</span> of <span class="font-medium">20</span> results</p></div>
+                        <div class="flex flex-1 justify-between sm:justify-end space-x-2">
+                            <button class="pagination-button pagination-prev">Previous</button>
+                            <button class="pagination-button pagination-page active" data-page="1">1</button>
+                            <button class="pagination-button pagination-page" data-page="2">2</button>
+                            <button class="pagination-button pagination-page" data-page="3">3</button>
+                            <span class="pagination-button border-none bg-transparent">...</span>
+                            <button class="pagination-button pagination-next">Next</button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-[var(--white-bg)] border-t border-[var(--border-color)] mt-auto">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-[var(--text-secondary)]">
+                © <script>document.write(new Date().getFullYear())</script> TokenizeRWA. All Rights Reserved.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.querySelectorAll('.filter-option').forEach(item => {
+            item.addEventListener('change', event => { // 'change' for checkboxes/radios
+                const filterType = event.target.dataset.filterType;
+                const filterValue = event.target.value;
+                alert(`Filter applied: ${filterType} = ${filterValue} (simulated)`);
+            });
+        });
+
+        document.getElementById('sortAssets').addEventListener('change', event => {
+            alert(`Sort by: ${event.target.value} (simulated)`);
+        });
+
+        document.getElementById('searchAssets').addEventListener('search', event => { // Use 'search' event for clearing
+             if (event.target.value) {
+                alert(`Searching for: ${event.target.value} (simulated)`);
+             } else {
+                alert('Search cleared (simulated)');
+             }
+        });
+         document.getElementById('searchAssets').addEventListener('keypress', event => {
+            if (event.key === 'Enter') {
+                 alert(`Searching for: ${event.target.value} (simulated)`);
+            }
+        });
+
+
+        document.querySelectorAll('.view-details-btn').forEach(button => {
+            button.addEventListener('click', event => {
+                const assetId = event.target.dataset.assetId;
+                alert(`Viewing details for asset ID: ${assetId} (simulated)`);
+            });
+        });
+
+        document.querySelectorAll('.pagination-page').forEach(button => {
+            button.addEventListener('click', event => {
+                document.querySelectorAll('.pagination-page').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                alert(`Navigating to page ${event.target.dataset.page} (simulated)`);
+            });
+        });
+        document.querySelector('.pagination-prev').addEventListener('click', () => alert('Navigating to previous page (simulated)'));
+        document.querySelector('.pagination-next').addEventListener('click', () => alert('Navigating to next page (simulated)'));
+
+    </script>
+</body>
+</html>

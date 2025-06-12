@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenizeRWA - Investor Dashboard</title>
+    <link rel="icon" href="data:image/x-icon;base64,">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" as="style" onload="this.rel='stylesheet'">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #019863;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --light-bg: #f9fafb; /* Main background for the dashboard */
+            --white-bg: #ffffff; /* Background for cards, tables */
+            --success-text: #059669; /* Tailwind green-700 for positive performance */
+            --danger-text: #dc2626;   /* Tailwind red-600 for negative performance */
+            --link-color: var(--primary-color);
+            --link-hover-color: #017a50; /* Darker primary for hover */
+        }
+        .summary-card {
+            @apply bg-[var(--white-bg)] overflow-hidden shadow rounded-lg p-5;
+        }
+        .summary-card-title {
+            @apply text-sm font-medium text-[var(--text-secondary)] truncate;
+        }
+        .summary-card-value {
+            @apply mt-1 text-3xl font-semibold text-[var(--text-primary)];
+        }
+        .summary-card-performance-positive {
+            @apply text-sm font-medium text-[var(--success-text)];
+        }
+        .summary-card-performance-negative {
+            @apply text-sm font-medium text-[var(--danger-text)];
+        }
+        .primary-cta-button { /* For main actions like Browse Marketplace */
+            @apply py-2.5 px-6 text-base font-semibold text-white bg-[var(--primary-color)] hover:bg-[var(--link-hover-color)] rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-colors duration-200;
+        }
+        .secondary-cta-button { /* For Deposit/Withdraw */
+             @apply py-2 px-4 text-sm font-medium text-[var(--primary-color)] bg-transparent hover:bg-green-50 rounded-lg border border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[var(--primary-color)] transition-colors duration-200;
+        }
+        .table-clickable-row {
+            @apply hover:bg-gray-50 cursor-pointer transition-colors duration-150;
+        }
+    </style>
+</head>
+<body class="bg-[var(--light-bg)] text-[var(--text-primary)]" style="font-family: Inter, 'Noto Sans', sans-serif;">
+    <div class="flex min-h-screen flex-col">
+        <!-- Main Header -->
+        <header class="bg-[var(--white-bg)] shadow-md sticky top-0 z-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                             <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                            <span class="text-xl font-bold tracking-tight text-[var(--text-primary)]">TokenizeRWA</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm font-medium text-[var(--text-secondary)] mr-4">Investor Portal</span>
+                         <div class="ml-2 flex items-center justify-center h-10 w-10 rounded-full bg-[var(--primary-color)] text-white text-lg font-semibold">IV</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Optional Sidebar Placeholder -->
+                <!-- <nav class="lg:w-64 bg-[var(--white-bg)] p-4 shadow rounded-lg h-fit">
+                    <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-4">Navigation</h2>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-[var(--text-primary)] bg-green-50 border border-[var(--primary-color)]">Dashboard</a></li>
+                        <li><a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-100 hover:text-[var(--text-primary)]">Marketplace</a></li>
+                        <li><a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-100 hover:text-[var(--text-primary)]">Transactions</a></li>
+                        <li><a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-100 hover:text-[var(--text-primary)]">Wallet</a></li>
+                         <li><a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-100 hover:text-[var(--text-primary)]">Account Settings</a></li>
+                    </ul>
+                </nav> -->
+
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold text-[var(--text-primary)]">Investor Dashboard</h1>
+                    </div>
+
+                    <!-- Summary Cards -->
+                    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4 mb-8">
+                        <div class="summary-card">
+                            <p class="summary-card-title">Total Portfolio Value</p>
+                            <p class="summary-card-value">$55,250.00</p>
+                        </div>
+                        <div class="summary-card">
+                            <p class="summary-card-title">Total Invested Amount</p>
+                            <p class="summary-card-value">$50,000.00</p>
+                        </div>
+                        <div class="summary-card">
+                            <p class="summary-card-title">Overall Portfolio Performance</p>
+                            <p class="summary-card-value summary-card-performance-positive">+10.5%</p>
+                        </div>
+                        <div class="summary-card">
+                            <p class="summary-card-title">Available Balance</p>
+                            <p class="summary-card-value">$1,500.00</p>
+                             <p class="text-xs text-[var(--text-secondary)] mt-1">Ready for investment</p>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links/CTA -->
+                    <div class="mb-8 flex flex-wrap gap-3">
+                        <button id="browseMarketplaceBtn" class="primary-cta-button">Browse Marketplace</button>
+                        <button id="depositFundsBtn" class="secondary-cta-button">Deposit Funds</button>
+                        <button id="withdrawFundsBtn" class="secondary-cta-button">Withdraw Funds</button>
+                    </div>
+
+                    <!-- Portfolio Holdings Table -->
+                    <div class="bg-[var(--white-bg)] shadow overflow-hidden rounded-lg mb-8">
+                        <div class="px-4 py-5 sm:px-6"><h3 class="text-lg leading-6 font-medium text-[var(--text-primary)]">My Portfolio Holdings</h3></div>
+                        <div class="border-t border-[var(--border-color)] overflow-x-auto">
+                            <table class="min-w-full divide-y divide-[var(--border-color)]">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Asset / Symbol</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Quantity</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Current Price</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Total Value</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Purchase Price</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">% Gain/Loss</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-[var(--white-bg)] divide-y divide-[var(--border-color)]">
+                                    <tr class="table-clickable-row" data-asset-id="TOKEN1"><td><div class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-[var(--text-primary)]">City Real Estate Fund</div><div class="text-xs text-[var(--text-secondary)]">CREF</div></div></td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">100</td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">$260.00</td><td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-[var(--text-primary)]">$26,000.00</td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">$250.00</td><td class="px-6 py-4 whitespace-nowrap text-sm summary-card-performance-positive">+4.00%</td></tr>
+                                    <tr class="table-clickable-row" data-asset-id="TOKEN2"><td><div class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-[var(--text-primary)]">Fine Art Investment Trust</div><div class="text-xs text-[var(--text-secondary)]">ARTINV</div></div></td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">50</td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">$190.00</td><td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-[var(--text-primary)]">$9,500.00</td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">$200.00</td><td class="px-6 py-4 whitespace-nowrap text-sm summary-card-performance-negative">-5.00%</td></tr>
+                                    <tr class="table-clickable-row" data-asset-id="TOKEN3"><td><div class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-[var(--text-primary)]">Renewable Energy Bond</div><div class="text-xs text-[var(--text-secondary)]">RENB</div></div></td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">2000</td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">$9.80</td><td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-[var(--text-primary)]">$19,600.00</td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">$10.00</td><td class="px-6 py-4 whitespace-nowrap text-sm summary-card-performance-negative">-2.00%</td></tr>
+                                     <tr class="table-clickable-row" data-asset-id="TOKEN4"><td><div class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-[var(--text-primary)]">Tech Startup Equity</div><div class="text-xs text-[var(--text-secondary)]">TSEQ</div></div></td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">10</td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">$150.00</td><td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-[var(--text-primary)]">$1,500.00</td><td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">$100.00</td><td class="px-6 py-4 whitespace-nowrap text-sm summary-card-performance-positive">+50.00%</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Recent Transactions List -->
+                        <div class="bg-[var(--white-bg)] shadow rounded-lg">
+                            <div class="px-4 py-5 sm:px-6 border-b border-[var(--border-color)]"><h3 class="text-lg leading-6 font-medium text-[var(--text-primary)]">Recent Transactions</h3></div>
+                            <ul class="divide-y divide-[var(--border-color)]">
+                                <li class="p-4 text-sm"><span class="font-medium text-[var(--success-text)]">PURCHASE:</span> 100 CREF Tokens @ $250.00 on 2023-10-01</li>
+                                <li class="p-4 text-sm"><span class="font-medium text-[var(--danger-text)]">SALE:</span> 50 ARTINV Tokens @ $195.00 on 2023-11-05</li>
+                                <li class="p-4 text-sm"><span class="font-medium text-blue-600">DIVIDEND:</span> 15 HBAR from RENB on 2023-11-15</li>
+                                <li class="p-4 text-sm"><span class="font-medium text-[var(--success-text)]">DEPOSIT:</span> $2,000.00 USD on 2023-09-20</li>
+                                <li class="p-4 text-sm"><span class="font-medium text-[var(--danger-text)]">WITHDRAWAL:</span> $500.00 USD on 2023-11-20</li>
+                            </ul>
+                        </div>
+                        <!-- Portfolio Allocation Chart Placeholder -->
+                        <div class="bg-[var(--white-bg)] shadow rounded-lg p-4 sm:p-6">
+                            <h3 class="text-lg leading-6 font-medium text-[var(--text-primary)] mb-4">Portfolio Allocation</h3>
+                            <div class="h-64 bg-gray-100 flex items-center justify-center rounded-md">
+                                <p class="text-[var(--text-secondary)]">Portfolio Allocation Chart Area</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-[var(--white-bg)] border-t border-[var(--border-color)] mt-auto">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-[var(--text-secondary)]">
+                © <script>document.write(new Date().getFullYear())</script> TokenizeRWA. All Rights Reserved.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('browseMarketplaceBtn').addEventListener('click', () => alert('Navigate to Marketplace (simulated)'));
+        document.getElementById('depositFundsBtn').addEventListener('click', () => alert('Navigate to Deposit Funds (simulated)'));
+        document.getElementById('withdrawFundsBtn').addEventListener('click', () => alert('Navigate to Withdraw Funds (simulated)'));
+
+        document.querySelectorAll('.table-clickable-row').forEach(row => {
+            row.addEventListener('click', () => {
+                const assetId = row.dataset.assetId;
+                alert('Navigate to Asset Detail Page for ' + assetId + ' (simulated)');
+            });
+        });
+    </script>
+</body>
+</html>

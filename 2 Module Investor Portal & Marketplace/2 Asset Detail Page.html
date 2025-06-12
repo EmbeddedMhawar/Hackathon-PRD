@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenizeRWA - Asset Details</title>
+    <link rel="icon" href="data:image/x-icon;base64,">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" as="style" onload="this.rel='stylesheet'">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #019863;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb; /* Not used much here, but for consistency */
+            --light-bg: #f9fafb;
+            --white-bg: #ffffff;
+            --link-color: var(--primary-color);
+            --link-hover-color: #017a50;
+            --button-hover-bg: #017a50;
+        }
+        .primary-cta-button {
+            @apply py-3 px-6 text-base font-semibold text-white bg-[var(--primary-color)] hover:bg-[var(--button-hover-bg)] rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-colors duration-200;
+        }
+        .secondary-cta-button {
+             @apply py-2.5 px-5 text-sm font-medium text-[var(--primary-color)] bg-transparent hover:bg-green-50 rounded-lg border border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[var(--primary-color)] transition-colors duration-200;
+        }
+        .section-title {
+            @apply text-xl font-semibold text-[var(--text-primary)] mb-4 border-b border-[var(--border-color)] pb-2;
+        }
+        .info-item {
+            @apply flex justify-between py-2 border-b border-dotted border-gray-200;
+        }
+        .info-label {
+            @apply text-sm font-medium text-[var(--text-secondary)];
+        }
+        .info-value {
+            @apply text-sm text-[var(--text-primary)] font-semibold text-right;
+        }
+        .document-link {
+            @apply flex items-center text-sm text-[var(--link-color)] hover:text-[var(--link-hover-color)] hover:underline py-1;
+        }
+        .document-link svg {
+            @apply w-4 h-4 mr-1.5;
+        }
+    </style>
+</head>
+<body class="bg-[var(--light-bg)] text-[var(--text-primary)]" style="font-family: Inter, 'Noto Sans', sans-serif;">
+    <div class="flex min-h-screen flex-col">
+        <!-- Main Header -->
+        <header class="bg-[var(--white-bg)] shadow-md sticky top-0 z-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                             <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                            <span class="text-xl font-bold tracking-tight text-[var(--text-primary)]">TokenizeRWA</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <a href="1 Marketplace Asset Listing Page.html" class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)] mr-4">&larr; Back to Marketplace</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="bg-[var(--white-bg)] shadow-xl rounded-lg overflow-hidden">
+                <div class="lg:flex lg:gap-x-8 p-6 md:p-8">
+                    <!-- Left Column: Asset Visuals & CTAs -->
+                    <div class="lg:w-2/5 space-y-6">
+                        <img id="mainAssetImage" src="https://via.placeholder.com/600x400.png/019863/FFFFFF?text=Downtown+Art+Gallery" alt="Downtown Art Gallery Loft" class="w-full h-auto object-cover rounded-lg shadow-md">
+                        <!-- Optional: Thumbnail Gallery -->
+                        <div id="thumbnailGallery" class="grid grid-cols-4 gap-2">
+                            <img src="https://via.placeholder.com/150x100.png/019863/FFFFFF?text=Gallery+View+1" alt="Gallery View 1" class="thumbnail-img cursor-pointer rounded border-2 border-transparent hover:border-[var(--primary-color)] transition-all">
+                            <img src="https://via.placeholder.com/150x100.png/019863/FFFFFF?text=Gallery+View+2" alt="Gallery View 2" class="thumbnail-img cursor-pointer rounded border-2 border-transparent hover:border-[var(--primary-color)] transition-all">
+                            <img src="https://via.placeholder.com/150x100.png/019863/FFFFFF?text=Gallery+View+3" alt="Gallery View 3" class="thumbnail-img cursor-pointer rounded border-2 border-transparent hover:border-[var(--primary-color)] transition-all">
+                            <div class="flex items-center justify-center bg-gray-100 rounded text-xs text-[var(--text-secondary)] cursor-pointer hover:bg-gray-200">View All (3+)</div>
+                        </div>
+                        <div class="mt-6 space-y-3">
+                            <button id="investNowBtn" class="primary-cta-button w-full">Invest Now / Buy Tokens</button>
+                            <button id="addToWatchlistBtn" class="secondary-cta-button w-full">Add to Watchlist</button>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Asset Details -->
+                    <div class="lg:w-3/5 mt-8 lg:mt-0">
+                        <h1 class="text-3xl font-bold text-[var(--text-primary)] mb-1">Downtown Art Gallery Loft</h1>
+                        <p class="text-sm text-[var(--text-secondary)] mb-4">ID: DAGL-007</p>
+
+                        <section class="mb-6">
+                            <h2 class="section-title">Asset Description</h2>
+                            <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
+                                This unique loft space, currently operating as a renowned art gallery, represents a prime investment opportunity in the heart of the city's cultural district. Spread over 3,000 sq ft, it features high ceilings, original hardwood floors, and large industrial windows offering abundant natural light. The flexible layout allows for continued use as a gallery, conversion into luxury residential units, or a high-end commercial space. Strong foot traffic and proximity to major transport hubs ensure continued appreciation and rental demand.
+                            </p>
+                        </section>
+
+                        <section class="mb-6">
+                            <h2 class="section-title">Key Information</h2>
+                            <ul class="space-y-1">
+                                <li class="info-item"><span class="info-label">Token Price:</span><span class="info-value">$125.00 USD</span></li>
+                                <li class="info-item"><span class="info-label">Total Asset Valuation:</span><span class="info-value">$2,500,000 USD</span></li>
+                                <li class="info-item"><span class="info-label">Total Tokens Issued:</span><span class="info-value">20,000 DAGL</span></li>
+                                <li class="info-item"><span class="info-label">Tokens Available for Sale:</span><span class="info-value">5,000 DAGL</span></li>
+                                <li class="info-item"><span class="info-label">Minimum Investment:</span><span class="info-value">$500.00 (4 Tokens)</span></li>
+                                <li class="info-item"><span class="info-label">Expected Yield/ROI:</span><span class="info-value">6-8% p.a. (projected rental + appreciation) <em class="text-xs not-italic text-gray-400 block">*Not guaranteed</em></span></li>
+                                <li class="info-item"><span class="info-label">Asset Type:</span><span class="info-value">Commercial Real Estate / Art Gallery</span></li>
+                                <li class="info-item"><span class="info-label">Location:</span><span class="info-value">123 Art Avenue, Metropolis City</span></li>
+                            </ul>
+                        </section>
+
+                        <section class="mb-6">
+                            <h2 class="section-title">Documents</h2>
+                            <div class="space-y-2">
+                                <a href="#" class="document-link download-link" data-doc="whitepaper">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
+                                    Project Whitepaper.pdf
+                                </a>
+                                <a href="#" class="document-link download-link" data-doc="due-diligence">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
+                                    Due Diligence Report.pdf
+                                </a>
+                            </div>
+                        </section>
+
+                        <section class="mb-6">
+                            <h2 class="section-title">Tokenomics</h2>
+                            <ul class="space-y-1">
+                                <li class="info-item"><span class="info-label">Token Symbol:</span><span class="info-value">DAGL</span></li>
+                                <li class="info-item"><span class="info-label">Blockchain:</span><span class="info-value">Hedera Hashgraph</span></li>
+                                <li class="info-item"><span class="info-label">Dividend/Yield Distribution:</span><span class="info-value">Quarterly, via HBAR</span></li>
+                                <li class="info-item"><span class="info-label">Voting Rights:</span><span class="info-value">1 Token = 1 Vote on key property decisions</span></li>
+                            </ul>
+                        </section>
+
+                        <section class="mb-6">
+                            <h2 class="section-title">Financials & Projections</h2>
+                            <div class="h-48 bg-gray-100 flex items-center justify-center rounded-md text-sm text-[var(--text-secondary)]">
+                                Financial Chart Area (Placeholder for charts/graphs)
+                            </div>
+                        </section>
+
+                        <section class="mb-6">
+                             <h2 class="section-title">Q&A / Discussions</h2>
+                             <p class="text-sm text-[var(--text-secondary)]">Have questions? <a href="#" class="text-[var(--link-color)] hover:underline">Join the discussion forum</a> for this asset.</p>
+                        </section>
+
+                        <section class="mb-6">
+                             <h2 class="section-title">About the Asset Owner</h2>
+                             <p class="text-sm text-[var(--text-secondary)]">Information about the asset owner/originator would be displayed here. (Placeholder)</p>
+                        </section>
+
+                        <section>
+                            <h2 class="section-title">Related Assets</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <!-- Mini Asset Card 1 -->
+                                <div class="border border-[var(--border-color)] rounded-lg p-3 hover:shadow-md transition-shadow">
+                                    <img src="https://via.placeholder.com/300x200.png/019863/FFFFFF?text=Related+Asset+1" alt="Related Asset 1" class="w-full h-24 object-cover rounded mb-2">
+                                    <h4 class="text-sm font-semibold text-[var(--text-primary)]">SoHo Artist Studio</h4>
+                                    <p class="text-xs text-[var(--text-secondary)]">$80.00/token</p>
+                                    <a href="#" class="text-xs text-[var(--link-color)] hover:underline mt-1 block">View &rarr;</a>
+                                </div>
+                                <!-- Mini Asset Card 2 -->
+                                <div class="border border-[var(--border-color)] rounded-lg p-3 hover:shadow-md transition-shadow">
+                                     <img src="https://via.placeholder.com/300x200.png/019863/FFFFFF?text=Related+Asset+2" alt="Related Asset 2" class="w-full h-24 object-cover rounded mb-2">
+                                    <h4 class="text-sm font-semibold text-[var(--text-primary)]">Historic Landmark Building</h4>
+                                    <p class="text-xs text-[var(--text-secondary)]">$250.00/token</p>
+                                    <a href="#" class="text-xs text-[var(--link-color)] hover:underline mt-1 block">View &rarr;</a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-[var(--white-bg)] border-t border-[var(--border-color)] mt-auto">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-[var(--text-secondary)]">
+                © <script>document.write(new Date().getFullYear())</script> TokenizeRWA. All Rights Reserved.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('investNowBtn').addEventListener('click', () => alert('Proceed to Token Purchase Flow (simulated)'));
+        document.getElementById('addToWatchlistBtn').addEventListener('click', () => alert('Asset added to watchlist (simulated)'));
+
+        document.querySelectorAll('.download-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert(`Downloading ${e.target.dataset.doc} (simulated)`);
+            });
+        });
+
+        const mainImage = document.getElementById('mainAssetImage');
+        const thumbnails = document.querySelectorAll('.thumbnail-img');
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                mainImage.src = thumb.src.replace('150x100', '600x400'); // Assume larger version available
+                thumbnails.forEach(t => t.classList.remove('border-[var(--primary-color)]', 'ring-2', 'ring-[var(--primary-color)]'));
+                thumb.classList.add('border-[var(--primary-color)]', 'ring-2', 'ring-[var(--primary-color)]');
+            });
+        });
+         if(thumbnails.length > 0) thumbnails[0].classList.add('border-[var(--primary-color)]', 'ring-2', 'ring-[var(--primary-color)]');
+
+
+    </script>
+</body>
+</html>
