@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenizeRWA - User Details & Management</title>
+    <link rel="icon" href="data:image/x-icon;base64,">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" as="style" onload="this.rel='stylesheet'">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #019863;
+            --primary-darker: #017a50;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --light-bg: #f9fafb;
+            --white-bg: #ffffff;
+            --sidebar-bg: #1f2937;
+            --sidebar-text: #d1d5db;
+            --sidebar-hover-bg: #374151;
+            --sidebar-active-bg: var(--primary-color);
+            --input-bg: var(--white-bg);
+            --input-focus-border: var(--primary-color);
+            --danger-color: #dc2626; /* red-600 */
+            --danger-hover-bg: #b91c1c; /* red-700 */
+            --warning-bg: #fffbeb; /* yellow-50 */
+            --warning-text: #b45309; /* yellow-700 */
+            --success-bg: #ecfdf5; /* green-50 */
+            --success-text: #065f46; /* green-800 */
+        }
+        .form-input, .form-select, .form-textarea {
+            @apply w-full rounded-md border border-[var(--border-color)] bg-[var(--input-bg)] p-2.5 text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:border-[var(--input-focus-border)] focus:ring-1 focus:ring-[var(--input-focus-border)] transition-colors duration-200;
+        }
+        .info-label { @apply block text-xs font-medium text-[var(--text-secondary)] mb-0.5; }
+        .info-value { @apply text-sm text-[var(--text-primary)] mb-3 p-2.5 bg-slate-50 rounded-md border border-slate-200; }
+        .action-button {
+             @apply py-2 px-4 text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-1 transition-colors duration-200;
+        }
+        .primary-action-button {
+            @apply text-white bg-[var(--primary-color)] hover:bg-[var(--primary-darker)] focus:ring-[var(--primary-color)];
+        }
+        .secondary-action-button {
+            @apply text-[var(--text-primary)] bg-gray-200 hover:bg-gray-300 focus:ring-gray-400;
+        }
+        .danger-action-button {
+            @apply text-white bg-[var(--danger-color)] hover:bg-[var(--danger-hover-bg)] focus:ring-[var(--danger-color)];
+        }
+        .card {
+            @apply bg-[var(--white-bg)] shadow-lg rounded-xl p-6 mb-6;
+        }
+        .card-title {
+            @apply text-lg font-semibold text-[var(--text-primary)] mb-4 border-b border-[var(--border-color)] pb-3;
+        }
+    </style>
+</head>
+<body class="bg-[var(--light-bg)] text-[var(--text-primary)]" style="font-family: Inter, 'Noto Sans', sans-serif;">
+    <div class="flex min-h-screen">
+        <!-- Sidebar (Placeholder) -->
+        <aside class="w-64 bg-[var(--sidebar-bg)] text-[var(--sidebar-text)] p-5 space-y-4 fixed top-0 left-0 h-full shadow-lg lg:block hidden">
+            <div class="flex items-center gap-2 pb-4 border-b border-gray-700">
+                 <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                <h1 class="text-xl font-bold text-white">TokenizeRWA Admin</h1>
+            </div>
+            <nav id="adminSidebarNav" class="mt-5 flex-1 space-y-1">
+                <a href="0 Admin Dashboard.html" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Dashboard</a>
+                <a href="1 User Management Table.html" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md bg-[var(--sidebar-active-bg)] text-white">User Management</a>
+                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Asset Submissions</a>
+                <!-- Add other links -->
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 lg:ml-64">
+            <header class="bg-[var(--white-bg)] shadow-sm flex items-center justify-between px-6 py-3 sticky top-0 z-40">
+                <h1 id="pageTitle" class="text-xl font-semibold text-[var(--text-primary)]">User Details: Jane Smith (USR002)</h1>
+                <a href="1 User Management Table.html" class="action-button secondary-action-button text-xs">&larr; Back to User List</a>
+            </header>
+
+            <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left Column: User Info & KYC -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="card">
+                            <h2 class="card-title">User Information</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                                <div><label class="info-label">User ID</label><p id="userId" class="info-value">USR002</p></div>
+                                <div><label class="info-label">Full Name</label><p id="fullName" class="info-value">Jane Smith</p></div>
+                                <div><label class="info-label">Email Address</label><p id="email" class="info-value">jane.smith@example.com</p></div>
+                                <div><label class="info-label">Phone Number</label><p id="phone" class="info-value">+1-555-0101</p></div>
+                                <div class="md:col-span-2"><label class="info-label">Residential Address</label><p id="address" class="info-value">456 Oak Avenue, Anytown, USA 67890</p></div>
+                                <div><label class="info-label">Registration Date</label><p id="regDate" class="info-value">2023-03-22</p></div>
+                                <div><label class="info-label">Last Login</label><p id="lastLogin" class="info-value">2023-11-19 15:30 UTC</p></div>
+                            </div>
+                             <div class="mt-4 text-right">
+                                <button id="editProfileBtn" class="action-button secondary-action-button">Edit Profile Information</button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h2 class="card-title">KYC Status & Actions</h2>
+                            <div>
+                                <label class="info-label">Current KYC Status</label>
+                                <p id="kycStatus" class="text-lg font-semibold p-2.5 bg-[var(--warning-bg)] text-[var(--warning-text)] rounded-md inline-block">Pending</p>
+                            </div>
+                            <div id="kycRejectionReasonSection" class="mt-3 hidden">
+                                <label class="info-label">Reason for Rejection:</label>
+                                <p id="rejectionReasonText" class="info-value bg-red-50 border-red-200 text-red-700"></p>
+                            </div>
+                            <div id="kycActions" class="mt-4 space-x-3">
+                                <button id="approveKycBtn" class="action-button primary-action-button">Approve KYC</button>
+                                <button id="rejectKycBtn" class="action-button danger-action-button">Reject KYC</button>
+                            </div>
+                             <div class="mt-4">
+                                <a href="#" id="viewKycDocsBtn" class="text-sm text-[var(--primary-color)] hover:underline">View Submitted KYC Documents (Placeholder)</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Account Management, Notes, Audit -->
+                    <div class="lg:col-span-1 space-y-6">
+                        <div class="card">
+                            <h2 class="card-title">Account Management</h2>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="userRoleSelect" class="info-label">Change User Role</label>
+                                    <div class="flex items-center gap-2">
+                                        <select id="userRoleSelect" class="form-select flex-grow">
+                                            <option value="investor">Investor</option>
+                                            <option value="asset_owner" selected>Asset Owner</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                        <button id="saveRoleBtn" class="action-button primary-action-button text-xs px-3 py-2.5">Save Role</button>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div>
+                                    <label class="info-label mb-1">Account Status: <span id="accountStatusText" class="font-semibold">Active</span></label>
+                                    <button id="suspendReactivateBtn" class="action-button w-full danger-action-button">Suspend Account</button>
+                                </div>
+                                 <hr>
+                                <div>
+                                     <label class="info-label mb-1">Password Management</label>
+                                    <button id="resetPasswordBtn" class="action-button secondary-action-button w-full">Send Password Reset Link</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h2 class="card-title">Internal Notes</h2>
+                            <div class="space-y-3 mb-4">
+                                <div class="text-xs p-2 bg-slate-50 rounded border border-slate-200">
+                                    <p class="text-[var(--text-secondary)]"><strong class="text-slate-700">AdminX</strong> (2023-10-15): User inquired about asset tokenization limits.</p>
+                                </div>
+                                <div class="text-xs p-2 bg-slate-50 rounded border border-slate-200">
+                                    <p class="text-[var(--text-secondary)]"><strong class="text-slate-700">AdminY</strong> (2023-09-01): High potential investor. Added to watchlist.</p>
+                                </div>
+                            </div>
+                            <textarea id="internalNoteTextarea" class="form-textarea" rows="3" placeholder="Add a new internal note..."></textarea>
+                            <div class="mt-2 text-right">
+                                <button id="saveNoteBtn" class="action-button primary-action-button">Save Note</button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h2 class="card-title">Audit Log (Placeholder)</h2>
+                            <ul class="space-y-2 text-xs text-[var(--text-secondary)]">
+                                <li class="border-b border-dotted pb-1">Admin 'ops_user' changed role to 'Asset Owner' - 2023-03-25 10:00 UTC</li>
+                                <li class="border-b border-dotted pb-1">KYC status updated to 'Pending' by system - 2023-03-22 14:00 UTC</li>
+                                <li>User account created - 2023-03-22 13:58 UTC</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+     <div id="toast" class="fixed bottom-5 right-5 bg-gray-800 text-white py-2.5 px-5 rounded-lg shadow-md hidden opacity-0 transition-opacity duration-300 text-sm">
+        Action completed!
+    </div>
+
+    <script>
+        const pageTitle = document.getElementById('pageTitle');
+        const userIdEl = document.getElementById('userId');
+        const fullNameEl = document.getElementById('fullName');
+        // ... other info elements ...
+        const kycStatusEl = document.getElementById('kycStatus');
+        const kycActionsDiv = document.getElementById('kycActions');
+        const approveKycBtn = document.getElementById('approveKycBtn');
+        const rejectKycBtn = document.getElementById('rejectKycBtn');
+        const kycRejectionReasonSection = document.getElementById('kycRejectionReasonSection');
+        const rejectionReasonTextEl = document.getElementById('rejectionReasonText');
+
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        const userRoleSelect = document.getElementById('userRoleSelect');
+        const saveRoleBtn = document.getElementById('saveRoleBtn');
+        const suspendReactivateBtn = document.getElementById('suspendReactivateBtn');
+        const accountStatusTextEl = document.getElementById('accountStatusText');
+        const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+
+        const internalNoteTextarea = document.getElementById('internalNoteTextarea');
+        const saveNoteBtn = document.getElementById('saveNoteBtn');
+        const toastEl = document.getElementById('toast');
+
+        // Simulate initial user data (would come from backend)
+        let currentUserData = {
+            id: 'USR002',
+            fullName: 'Jane Smith',
+            email: 'jane.smith@example.com',
+            phone: '+1-555-0101',
+            address: '456 Oak Avenue, Anytown, USA 67890',
+            regDate: '2023-03-22',
+            lastLogin: '2023-11-19 15:30 UTC',
+            kycStatus: 'Pending', // Possible: Pending, Approved, Rejected, Resubmit
+            rejectionReason: '',
+            userRole: 'asset_owner', // Possible: investor, asset_owner, admin
+            accountStatus: 'Active' // Possible: Active, Suspended
+        };
+
+        function showToast(message) {
+            toastEl.textContent = message;
+            toastEl.classList.remove('hidden');
+            toastEl.classList.add('opacity-100');
+            setTimeout(() => {
+                toastEl.classList.remove('opacity-100');
+                toastEl.classList.add('hidden');
+            }, 3000);
+        }
+
+        function updateKycUI() {
+            kycStatusEl.textContent = currentUserData.kycStatus.charAt(0).toUpperCase() + currentUserData.kycStatus.slice(1);
+            kycStatusEl.className = 'text-lg font-semibold p-2.5 rounded-md inline-block'; // Reset classes
+            kycRejectionReasonSection.classList.add('hidden');
+
+            if (currentUserData.kycStatus === 'Pending' || currentUserData.kycStatus === 'Resubmit') {
+                kycStatusEl.classList.add('bg-[var(--warning-bg)]', 'text-[var(--warning-text)]');
+                approveKycBtn.classList.remove('hidden');
+                rejectKycBtn.classList.remove('hidden');
+            } else if (currentUserData.kycStatus === 'Approved') {
+                kycStatusEl.classList.add('bg-[var(--success-bg)]', 'text-[var(--success-text)]');
+                approveKycBtn.classList.add('hidden');
+                rejectKycBtn.classList.add('hidden');
+            } else if (currentUserData.kycStatus === 'Rejected') {
+                kycStatusEl.classList.add('bg-red-100', 'text-red-700'); // Using specific red for rejected
+                approveKycBtn.classList.add('hidden');
+                rejectKycBtn.classList.add('hidden');
+                if (currentUserData.rejectionReason) {
+                    rejectionReasonTextEl.textContent = currentUserData.rejectionReason;
+                    kycRejectionReasonSection.classList.remove('hidden');
+                }
+            }
+        }
+
+        function updateAccountStatusUI() {
+            accountStatusTextEl.textContent = currentUserData.accountStatus;
+            if (currentUserData.accountStatus === 'Active') {
+                suspendReactivateBtn.textContent = 'Suspend Account';
+                suspendReactivateBtn.classList.remove('secondary-action-button', 'bg-green-500', 'hover:bg-green-600');
+                suspendReactivateBtn.classList.add('danger-action-button');
+            } else { // Suspended
+                suspendReactivateBtn.textContent = 'Reactivate Account';
+                suspendReactivateBtn.classList.remove('danger-action-button');
+                suspendReactivateBtn.classList.add('secondary-action-button', 'bg-green-500', 'hover:bg-green-600', 'text-white'); // Make it stand out
+            }
+        }
+
+        function loadUserData() {
+            pageTitle.textContent = `User Details: ${currentUserData.fullName} (${currentUserData.id})`;
+            userIdEl.textContent = currentUserData.id;
+            fullNameEl.textContent = currentUserData.fullName;
+            document.getElementById('email').textContent = currentUserData.email;
+            document.getElementById('phone').textContent = currentUserData.phone;
+            document.getElementById('address').textContent = currentUserData.address;
+            document.getElementById('regDate').textContent = currentUserData.regDate;
+            document.getElementById('lastLogin').textContent = currentUserData.lastLogin;
+            userRoleSelect.value = currentUserData.userRole;
+            updateKycUI();
+            updateAccountStatusUI();
+        }
+
+        // Event Listeners
+        approveKycBtn.addEventListener('click', () => {
+            currentUserData.kycStatus = 'Approved';
+            updateKycUI();
+            showToast(`KYC for ${currentUserData.id} approved.`);
+        });
+
+        rejectKycBtn.addEventListener('click', () => {
+            const reason = prompt("Enter reason for KYC rejection (optional):", "Documentation unclear.");
+            currentUserData.kycStatus = 'Rejected';
+            currentUserData.rejectionReason = reason || "No specific reason provided.";
+            updateKycUI();
+            showToast(`KYC for ${currentUserData.id} rejected.`);
+        });
+
+        editProfileBtn.addEventListener('click', () => showToast('Simulating navigation to edit profile page...'));
+        document.getElementById('viewKycDocsBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast('Simulating opening KYC documents...');
+        });
+
+        saveRoleBtn.addEventListener('click', () => {
+            currentUserData.userRole = userRoleSelect.value;
+            showToast(`User role for ${currentUserData.id} updated to ${currentUserData.userRole}.`);
+        });
+
+        suspendReactivateBtn.addEventListener('click', () => {
+            if (currentUserData.accountStatus === 'Active') {
+                if (confirm(`Are you sure you want to suspend user ${currentUserData.id}?`)) {
+                    currentUserData.accountStatus = 'Suspended';
+                    showToast(`User ${currentUserData.id} suspended.`);
+                }
+            } else {
+                currentUserData.accountStatus = 'Active';
+                showToast(`User ${currentUserData.id} reactivated.`);
+            }
+            updateAccountStatusUI();
+        });
+
+        resetPasswordBtn.addEventListener('click', () => showToast(`Password reset link sent to ${currentUserData.email} (simulated).`));
+        saveNoteBtn.addEventListener('click', () => {
+            if (internalNoteTextarea.value.trim()) {
+                showToast('Internal note saved (simulated).');
+                internalNoteTextarea.value = ''; // Clear textarea
+            } else {
+                alert("Note cannot be empty.");
+            }
+        });
+
+        // Initial load
+        loadUserData();
+
+    </script>
+</body>
+</html>

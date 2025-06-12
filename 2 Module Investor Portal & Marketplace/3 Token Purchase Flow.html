@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenizeRWA - Purchase Tokens</title>
+    <link rel="icon" href="data:image/x-icon;base64,">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" as="style" onload="this.rel='stylesheet'">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #019863;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --input-focus-border: #019863;
+            --button-hover-bg: #017a50;
+            --light-bg: #f9fafb;
+            --white-bg: #ffffff;
+            --disabled-bg: #d1d5db;
+            --error-text: #dc2626; /* red-600 */
+            --checkbox-tick-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(255,255,255)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath d=%27M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z%27/%3e%3c/svg%3e');
+        }
+        .form-input {
+            @apply w-full rounded-lg border border-[var(--border-color)] bg-[var(--input-bg)] p-3 text-base text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:border-[var(--input-focus-border)] focus:ring-1 focus:ring-[var(--input-focus-border)] transition-colors duration-200;
+        }
+         .form-checkbox {
+            @apply h-5 w-5 rounded border-[var(--border-color)] bg-transparent text-[var(--primary-color)] checked:bg-[var(--primary-color)] checked:border-[var(--primary-color)] checked:bg-[image:var(--checkbox-tick-svg)] focus:ring-0 focus:ring-offset-0 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[var(--primary-color)];
+        }
+        .step-header { @apply text-xl font-semibold mb-1 text-[var(--text-primary)]; }
+        .step-subheader { @apply text-sm text-[var(--text-secondary)] mb-6; }
+        .nav-button {
+            @apply py-2.5 px-5 text-sm font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+        }
+        .primary-nav-button { @apply text-white bg-[var(--primary-color)] hover:bg-[var(--button-hover-bg)] disabled:bg-[var(--disabled-bg)]; }
+        .secondary-nav-button { @apply text-[var(--text-primary)] bg-gray-100 hover:bg-gray-200 border border-[var(--border-color)] disabled:bg-gray-50; }
+        .summary-item { @apply flex justify-between py-2 border-b border-dotted border-gray-200; }
+        .summary-label { @apply text-sm text-[var(--text-secondary)]; }
+        .summary-value { @apply text-sm font-semibold text-[var(--text-primary)]; }
+        .qr-code-placeholder { @apply w-40 h-40 bg-gray-200 flex items-center justify-center text-sm text-[var(--text-secondary)] rounded-md mx-auto; }
+    </style>
+</head>
+<body class="bg-[var(--light-bg)] text-[var(--text-primary)]" style="font-family: Inter, 'Noto Sans', sans-serif;">
+    <!-- Main Header -->
+    <header class="bg-[var(--white-bg)] shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                        <span class="text-xl font-bold tracking-tight text-[var(--text-primary)]">TokenizeRWA</span>
+                    </div>
+                </div>
+                 <div class="flex items-center">
+                    <a href="1 Marketplace Asset Listing Page.html" class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)] mr-4">&larr; Back to Marketplace</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="w-full max-w-xl mx-auto bg-[var(--white-bg)] p-6 sm:p-8 shadow-xl rounded-lg">
+            <header class="mb-8 text-center">
+                <h1 class="text-3xl font-bold tracking-tight text-[var(--text-primary)]">Purchase Tokens</h1>
+                <p id="assetNameDisplay" class="mt-1 text-base text-[var(--text-secondary)]">Downtown Art Gallery Loft (DGLT)</p>
+            </header>
+
+            <!-- Step Indicator (Optional but good for UX) -->
+            <div class="mb-8">
+                <ol class="flex items-center w-full">
+                    <li id="stepIndicator1" class="flex w-full items-center text-[var(--primary-color)] after:content-[''] after:w-full after:h-1 after:border-b after:border-[var(--primary-color)] after:border-4 after:inline-block">
+                        <span class="flex items-center justify-center w-10 h-10 bg-[var(--primary-color)] rounded-full lg:h-12 lg:w-12 shrink-0"><svg class="w-4 h-4 text-white lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg></span>
+                    </li>
+                    <li id="stepIndicator2" class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block">
+                        <span class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 shrink-0"><svg class="w-4 h-4 text-gray-500 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 9a1 1 0 000 2h4a1 1 0 100-2H8z"></path></svg></span>
+                    </li>
+                    <li id="stepIndicator3" class="flex items-center">
+                        <span class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 shrink-0"><svg class="w-4 h-4 text-gray-500 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 9a1 1 0 000 2h4a1 1 0 100-2H8z"></path></svg></span>
+                    </li>
+                </ol>
+            </div>
+
+
+            <form id="tokenPurchaseForm">
+                <!-- Step 1: Select Amount -->
+                <div id="step1Content" class="step-content space-y-6">
+                    <div><h2 class="step-header">Step 1: Select Amount</h2><p class="step-subheader">Specify how many tokens you wish to purchase or the total amount you want to invest.</p></div>
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-[var(--text-secondary)]">Current Token Price:</span>
+                            <span id="tokenPriceDisplay" class="text-lg font-semibold text-[var(--primary-color)]">$50.00 / DGLT</span>
+                        </div>
+                        <div class="mt-2 flex justify-between items-center">
+                            <span class="text-sm font-medium text-[var(--text-secondary)]">Your Available Balance:</span>
+                            <span id="availableBalanceDisplay" class="text-sm font-medium text-[var(--text-primary)]">$1,500.00 USD</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="numberOfTokens" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Number of Tokens to Purchase</label>
+                        <input type="number" name="numberOfTokens" id="numberOfTokens" class="form-input" placeholder="e.g., 10">
+                    </div>
+                    <div class="text-center my-2 text-sm text-[var(--text-secondary)]">OR</div>
+                    <div>
+                        <label for="totalInvestmentAmount" class="block text-sm font-medium text-[var(--text-primary)] mb-1">Total Investment Amount (USD)</label>
+                        <input type="number" name="totalInvestmentAmount" id="totalInvestmentAmount" class="form-input" placeholder="e.g., 500">
+                    </div>
+                    <div class="mt-4 p-3 bg-gray-50 rounded-md border border-gray-200">
+                        <p class="text-sm text-[var(--text-secondary)]">Estimated Subtotal: <span id="estimatedSubtotal" class="font-semibold text-[var(--text-primary)]">$0.00</span></p>
+                        <p class="text-xs text-[var(--text-secondary)]">Simulated Fees: <span id="simulatedFees" class="font-semibold text-[var(--text-primary)]">$0.00</span> (0.5 DGLT network fee + 1% platform fee)</p>
+                        <hr class="my-1.5">
+                        <p class="text-md font-medium text-[var(--text-secondary)]">Estimated Total Cost: <span id="estimatedTotalCost" class="font-bold text-[var(--primary-color)]">$0.00</span></p>
+                    </div>
+                     <p id="step1Error" class="text-sm text-[var(--error-text)] text-center hidden"></p>
+                </div>
+
+                <!-- Step 2: Confirm Transaction -->
+                <div id="step2Content" class="step-content space-y-6 hidden">
+                    <div><h2 class="step-header">Step 2: Confirm Transaction</h2><p class="step-subheader">Please review your transaction details carefully before confirming.</p></div>
+                    <div class="p-4 border border-[var(--border-color)] rounded-lg bg-slate-50 space-y-2">
+                        <div class="summary-item"><span class="summary-label">Asset Name:</span><span id="summaryAssetName" class="summary-value">Downtown Art Gallery Loft (DGLT)</span></div>
+                        <div class="summary-item"><span class="summary-label">Number of Tokens:</span><span id="summaryNumberOfTokens" class="summary-value">0</span></div>
+                        <div class="summary-item"><span class="summary-label">Price Per Token:</span><span id="summaryPricePerToken" class="summary-value">$50.00</span></div>
+                        <hr>
+                        <div class="summary-item"><span class="summary-label">Subtotal:</span><span id="summarySubtotal" class="summary-value">$0.00</span></div>
+                        <div class="summary-item"><span class="summary-label">Estimated Fees:</span><span id="summaryFees" class="summary-value">$0.00</span></div>
+                        <hr>
+                        <div class="summary-item text-lg"><span class="summary-label font-semibold">Total Cost (USD):</span><span id="summaryTotalCost" class="summary-value font-bold text-[var(--primary-color)]">$0.00</span></div>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-[var(--text-primary)] mb-1">Payment Method:</p>
+                        <p id="paymentMethodDisplay" class="text-sm text-[var(--text-secondary)] p-3 bg-gray-100 rounded-md">Using internal balance: $1,500.00 USD</p>
+                        <!-- Placeholder for external wallet: <p class="text-sm text-[var(--text-secondary)]">External Wallet: 0x123...abc</p> -->
+                    </div>
+                    <div class="flex items-start mt-4">
+                        <input id="termsCheckbox" name="termsCheckbox" type="checkbox" class="form-checkbox mt-0.5">
+                        <label for="termsCheckbox" class="ml-2 text-sm text-[var(--text-secondary)]">I agree to the <a href="#" class="text-[var(--primary-color)] hover:underline">Terms and Conditions of Token Sale</a>.</label>
+                    </div>
+                </div>
+
+                <!-- Step 3: Payment & Confirmation -->
+                <div id="step3Content" class="step-content space-y-6 hidden text-center">
+                    <div><h2 class="step-header">Step 3: Payment & Confirmation</h2></div>
+                    <div id="paymentProcessing" class="space-y-3">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-t-2 border-[var(--primary-color)] mx-auto"></div>
+                        <p class="text-lg font-semibold text-[var(--text-secondary)]">Processing Transaction...</p>
+                        <p class="text-sm text-[var(--text-secondary)]">Please do not close or refresh this page.</p>
+                    </div>
+                    <div id="paymentSuccess" class="hidden space-y-3">
+                        <svg class="w-16 h-16 text-[var(--primary-color)] mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="text-2xl font-bold text-[var(--primary-color)]">Purchase Successful!</h3>
+                        <p class="text-[var(--text-secondary)]">Your tokens have been successfully purchased and allocated to your account.</p>
+                        <p class="text-sm">Transaction ID: <span class="font-mono text-xs bg-gray-100 p-1 rounded">TXN_SIMULATED_123ABC789</span></p>
+                        <a href="#" id="viewTransactionHistoryBtn" class="inline-block mt-2 text-sm text-[var(--primary-color)] hover:underline">View Transaction History &rarr;</a>
+                    </div>
+                     <div id="paymentError" class="hidden space-y-3">
+                        <svg class="w-16 h-16 text-[var(--error-text)] mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="text-2xl font-bold text-[var(--error-text)]">Payment Failed</h3>
+                        <p class="text-[var(--text-secondary)]">Unfortunately, we could not process your payment at this time. Please try again or contact support.</p>
+                        <p id="paymentErrorMessage" class="text-sm text-[var(--error-text)]">Error: Insufficient funds (Simulated).</p>
+                        <button id="tryAgainBtn" class="primary-nav-button mt-4">Try Again</button>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div id="navigationButtons" class="mt-10 pt-6 border-t border-[var(--border-color)] flex justify-between items-center">
+                    <button type="button" id="prevButton" class="nav-button secondary-nav-button" disabled>Back</button>
+                    <button type="button" id="nextButton" class="nav-button primary-nav-button">Next</button>
+                    <button type="button" id="confirmPurchaseButton" class="nav-button primary-nav-button hidden" disabled>Confirm Purchase</button>
+                </div>
+            </form>
+        </div>
+    </div>
+     <footer class="bg-[var(--white-bg)] border-t border-[var(--border-color)] mt-auto">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-[var(--text-secondary)]">
+            © <script>document.write(new Date().getFullYear())</script> TokenizeRWA. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        const TOKEN_PRICE = 50.00;
+        const NETWORK_FEE_TOKEN = 0.5; // in tokens
+        const PLATFORM_FEE_PERCENT = 0.01; // 1%
+        const USER_BALANCE_USD = 1500.00;
+
+        let currentStep = 0;
+        const steps = ['step1Content', 'step2Content', 'step3Content'];
+        const stepIndicators = [document.getElementById('stepIndicator1'), document.getElementById('stepIndicator2'), document.getElementById('stepIndicator3')];
+
+        const form = document.getElementById('tokenPurchaseForm');
+        const stepContents = steps.map(id => document.getElementById(id));
+
+        const numberOfTokensInput = document.getElementById('numberOfTokens');
+        const totalInvestmentAmountInput = document.getElementById('totalInvestmentAmount');
+        const estimatedSubtotalEl = document.getElementById('estimatedSubtotal');
+        const simulatedFeesEl = document.getElementById('simulatedFees');
+        const estimatedTotalCostEl = document.getElementById('estimatedTotalCost');
+        const step1ErrorEl = document.getElementById('step1Error');
+
+        const summaryNumberOfTokensEl = document.getElementById('summaryNumberOfTokens');
+        const summaryPricePerTokenEl = document.getElementById('summaryPricePerToken');
+        const summarySubtotalEl = document.getElementById('summarySubtotal');
+        const summaryFeesEl = document.getElementById('summaryFees');
+        const summaryTotalCostEl = document.getElementById('summaryTotalCost');
+        const termsCheckbox = document.getElementById('termsCheckbox');
+
+        const paymentProcessingDiv = document.getElementById('paymentProcessing');
+        const paymentSuccessDiv = document.getElementById('paymentSuccess');
+        const paymentErrorDiv = document.getElementById('paymentError');
+        const paymentErrorMessageEl = document.getElementById('paymentErrorMessage');
+
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const confirmPurchaseButton = document.getElementById('confirmPurchaseButton');
+        const navigationButtonsDiv = document.getElementById('navigationButtons');
+        const tryAgainBtn = document.getElementById('tryAgainBtn');
+
+
+        function updateStepIndicator() {
+            stepIndicators.forEach((indicator, index) => {
+                const span = indicator.querySelector('span');
+                const svg = span.querySelector('svg');
+                if (index < currentStep) { // Completed step
+                    indicator.classList.add('text-[var(--primary-color)]', 'after:border-[var(--primary-color)]');
+                    indicator.classList.remove('after:border-gray-100');
+                    span.classList.add('bg-[var(--primary-color)]');
+                    span.classList.remove('bg-gray-100');
+                    svg.innerHTML = '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>';
+                    svg.classList.add('text-white'); svg.classList.remove('text-gray-500');
+                } else if (index === currentStep) { // Current step
+                    indicator.classList.add('text-[var(--primary-color)]', 'after:border-gray-100');
+                    indicator.classList.remove('after:border-[var(--primary-color)]');
+                    span.classList.add('bg-[var(--primary-color)]');
+                    span.classList.remove('bg-gray-100');
+                    svg.innerHTML = '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>'; // Checkmark for current active step too
+                    svg.classList.add('text-white'); svg.classList.remove('text-gray-500');
+                } else { // Future step
+                    indicator.classList.remove('text-[var(--primary-color)]', 'after:border-[var(--primary-color)]');
+                    indicator.classList.add('after:border-gray-100');
+                    span.classList.remove('bg-[var(--primary-color)]');
+                    span.classList.add('bg-gray-100');
+                    svg.innerHTML = '<path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 9a1 1 0 000 2h4a1 1 0 100-2H8z"></path>';
+                    svg.classList.remove('text-white'); svg.classList.add('text-gray-500');
+                }
+            });
+        }
+
+        function updateStepUI() {
+            stepContents.forEach((div, index) => div.classList.toggle('hidden', index !== currentStep));
+            updateStepIndicator();
+
+            prevButton.disabled = currentStep === 0;
+            nextButton.classList.toggle('hidden', currentStep !== 0); // Only on step 1
+            confirmPurchaseButton.classList.toggle('hidden', currentStep !== 1); // Only on step 2
+            navigationButtonsDiv.classList.toggle('hidden', currentStep === 2 && !paymentErrorDiv.classList.contains('hidden')); // Hide nav on final step unless error
+
+            if (currentStep === 0) validateStep1();
+            if (currentStep === 1) validateStep2();
+            if (currentStep === 2) { // Payment & Confirmation Step
+                paymentProcessingDiv.classList.remove('hidden');
+                paymentSuccessDiv.classList.add('hidden');
+                paymentErrorDiv.classList.add('hidden');
+                simulatePayment();
+            }
+        }
+
+        function calculateCosts() {
+            const numTokens = parseFloat(numberOfTokensInput.value) || 0;
+            const totalInvest = parseFloat(totalInvestmentAmountInput.value) || 0;
+            let subtotal = 0;
+            let calculatedTokens = numTokens;
+
+            if (document.activeElement === numberOfTokensInput && numTokens > 0) {
+                subtotal = numTokens * TOKEN_PRICE;
+                totalInvestmentAmountInput.value = subtotal.toFixed(2);
+            } else if (document.activeElement === totalInvestmentAmountInput && totalInvest > 0) {
+                calculatedTokens = totalInvest / TOKEN_PRICE;
+                numberOfTokensInput.value = calculatedTokens.toFixed(2); // Can be fractional for display
+                subtotal = totalInvest;
+            } else if (numTokens > 0) { // Fallback if not focused but numTokens has value
+                 subtotal = numTokens * TOKEN_PRICE;
+            } else if (totalInvest > 0) { // Fallback if not focused but totalInvest has value
+                 calculatedTokens = totalInvest / TOKEN_PRICE;
+                 subtotal = totalInvest;
+            }
+
+
+            const platformFee = subtotal * PLATFORM_FEE_PERCENT;
+            const networkFeeUSD = NETWORK_FEE_TOKEN * TOKEN_PRICE;
+            const totalFees = platformFee + networkFeeUSD;
+            const totalCost = subtotal + totalFees;
+
+            estimatedSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+            simulatedFeesEl.textContent = `$${totalFees.toFixed(2)} (${NETWORK_FEE_TOKEN} DGLT network fee + ${PLATFORM_FEE_PERCENT*100}% platform fee)`;
+            estimatedTotalCostEl.textContent = `$${totalCost.toFixed(2)}`;
+
+            return { numTokens: calculatedTokens, subtotal, totalFees, totalCost };
+        }
+
+        function validateStep1() {
+            const { numTokens, totalCost } = calculateCosts();
+            step1ErrorEl.classList.add('hidden');
+            step1ErrorEl.textContent = '';
+
+            if (numTokens <= 0) {
+                nextButton.disabled = true;
+                return false;
+            }
+            if (totalCost > USER_BALANCE_USD) {
+                step1ErrorEl.textContent = 'Estimated total cost exceeds your available balance.';
+                step1ErrorEl.classList.remove('hidden');
+                nextButton.disabled = true;
+                return false;
+            }
+            nextButton.disabled = false;
+            return true;
+        }
+
+        function validateStep2() {
+            confirmPurchaseButton.disabled = !termsCheckbox.checked;
+        }
+
+        numberOfTokensInput.addEventListener('input', () => {
+            if (document.activeElement === numberOfTokensInput) calculateCosts();
+            validateStep1();
+        });
+        totalInvestmentAmountInput.addEventListener('input', () => {
+             if (document.activeElement === totalInvestmentAmountInput) calculateCosts();
+            validateStep1();
+        });
+        termsCheckbox.addEventListener('change', validateStep2);
+
+        nextButton.addEventListener('click', () => {
+            if (currentStep === 0 && validateStep1()) {
+                const { numTokens, subtotal, totalFees, totalCost } = calculateCosts();
+                summaryNumberOfTokensEl.textContent = parseFloat(numberOfTokensInput.value).toFixed(2); // Use the potentially fractional input for display
+                summaryPricePerTokenEl.textContent = `$${TOKEN_PRICE.toFixed(2)}`;
+                summarySubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+                summaryFeesEl.textContent = `$${totalFees.toFixed(2)}`;
+                summaryTotalCostEl.textContent = `$${totalCost.toFixed(2)}`;
+                currentStep++;
+                updateStepUI();
+            }
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentStep > 0) {
+                // if coming back from final step error, re-enable nav buttons
+                if (currentStep === 2 && !paymentErrorDiv.classList.contains('hidden')) {
+                    navigationButtonsDiv.classList.remove('hidden');
+                }
+                currentStep--;
+                updateStepUI();
+            }
+        });
+
+        confirmPurchaseButton.addEventListener('click', () => {
+            if (currentStep === 1 && termsCheckbox.checked) {
+                currentStep++;
+                updateStepUI();
+            }
+        });
+
+        tryAgainBtn.addEventListener('click', () => {
+            currentStep = 0; // Reset to first step
+            numberOfTokensInput.value = ''; // Clear inputs
+            totalInvestmentAmountInput.value = '';
+            calculateCosts(); // Recalculate to reset displayed costs
+            updateStepUI();
+        });
+
+
+        function simulatePayment() {
+            setTimeout(() => {
+                paymentProcessingDiv.classList.add('hidden');
+                // Simulate success or failure
+                const success = Math.random() > 0.3; // 70% chance of success
+                const { totalCost } = calculateCosts();
+
+                if (success && totalCost <= USER_BALANCE_USD) {
+                    paymentSuccessDiv.classList.remove('hidden');
+                     navigationButtonsDiv.classList.add('hidden'); // Hide nav on success
+                } else {
+                    paymentErrorDiv.classList.remove('hidden');
+                    if(totalCost > USER_BALANCE_USD) {
+                        paymentErrorMessageEl.textContent = 'Error: Insufficient funds. (Simulated)';
+                    } else {
+                        paymentErrorMessageEl.textContent = 'Error: Transaction declined by provider. (Simulated)';
+                    }
+                    navigationButtonsDiv.classList.remove('hidden'); // Show nav on error to allow going back
+                    prevButton.disabled = true; // But only Try Again should be active
+                    nextButton.classList.add('hidden');
+                    confirmPurchaseButton.classList.add('hidden');
+
+                }
+            }, 3000); // Simulate 3 second delay
+        }
+
+        document.getElementById('viewTransactionHistoryBtn').addEventListener('click', () => alert('Navigate to Transaction History (simulated)'));
+
+        // Initial UI setup
+        calculateCosts(); // To set initial fee display
+        updateStepUI();
+    </script>
+</body>
+</html>
