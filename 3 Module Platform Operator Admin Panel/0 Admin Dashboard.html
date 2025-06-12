@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenizeRWA - Admin Dashboard</title>
+    <link rel="icon" href="data:image/x-icon;base64,">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" as="style" onload="this.rel='stylesheet'">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #019863;
+            --primary-darker: #017a50; /* For hover states */
+            --text-primary: #111827;    /* gray-900 */
+            --text-secondary: #6b7280;  /* gray-500 */
+            --text-light: #f9fafb;     /* gray-50 */
+            --border-color: #e5e7eb;   /* gray-200 */
+            --light-bg: #f9fafb;       /* gray-50 - Main page background */
+            --white-bg: #ffffff;       /* Card, table backgrounds */
+            --sidebar-bg: #1f2937;    /* gray-800 for sidebar */
+            --sidebar-text: #d1d5db;  /* gray-300 for sidebar text */
+            --sidebar-hover-bg: #374151; /* gray-700 for sidebar hover */
+            --sidebar-active-bg: var(--primary-color);
+        }
+        .admin-metric-card {
+            @apply bg-[var(--white-bg)] p-5 shadow rounded-lg transition-all hover:shadow-md;
+        }
+        .admin-metric-title {
+            @apply text-sm font-medium text-[var(--text-secondary)] truncate;
+        }
+        .admin-metric-value {
+            @apply mt-1 text-3xl font-semibold text-[var(--text-primary)];
+        }
+        .quick-access-link {
+            @apply block bg-slate-100 hover:bg-slate-200 text-[var(--text-primary)] font-medium py-3 px-4 rounded-lg text-sm transition-colors duration-150 text-center sm:text-left;
+        }
+        .table-action-button {
+            @apply px-2 py-1 text-xs font-medium text-[var(--primary-color)] hover:text-[var(--primary-darker)] rounded hover:bg-green-50 transition-colors;
+        }
+    </style>
+</head>
+<body class="bg-[var(--light-bg)] text-[var(--text-primary)]" style="font-family: Inter, 'Noto Sans', sans-serif;">
+    <div class="flex min-h-screen">
+        <!-- Sidebar (Placeholder) -->
+        <aside class="w-64 bg-[var(--sidebar-bg)] text-[var(--sidebar-text)] p-5 space-y-4 fixed top-0 left-0 h-full shadow-lg lg:block hidden">
+            <div class="flex items-center gap-2 pb-4 border-b border-gray-700">
+                <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                <h1 class="text-xl font-bold text-white">TokenizeRWA Admin</h1>
+            </div>
+            <nav class="mt-5 flex-1 space-y-1">
+                <a href="#" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md bg-[var(--sidebar-active-bg)] text-white">
+                    <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">User Management</a>
+                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Asset Submissions</a>
+                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Token Management</a>
+                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Transactions</a>
+                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">System Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 lg:ml-64"> <!-- Adjust ml for sidebar width -->
+            <!-- Top Header Bar -->
+            <header class="bg-[var(--white-bg)] shadow-sm flex items-center justify-between px-6 py-3 sticky top-0 z-40">
+                <h1 class="text-xl font-semibold text-[var(--text-primary)]">Admin Dashboard</h1>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-[var(--text-secondary)]">Admin User</span>
+                    <div class="h-9 w-9 rounded-full bg-[var(--primary-color)] flex items-center justify-center text-white text-sm font-semibold">AU</div>
+                </div>
+            </header>
+
+            <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <!-- Key Metric Summary Cards -->
+                <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+                    <div class="admin-metric-card"><p class="admin-metric-title">Total Users</p><p class="admin-metric-value">1,250</p></div>
+                    <div class="admin-metric-card"><p class="admin-metric-title">New Users (Last 7d)</p><p class="admin-metric-value">75</p></div>
+                    <div class="admin-metric-card"><p class="admin-metric-title">Assets Pending Approval</p><p class="admin-metric-value">15</p></div>
+                    <div class="admin-metric-card"><p class="admin-metric-title">Total Value Locked (TVL)</p><p class="admin-metric-value">$15.3M</p></div>
+                    <!-- Optional cards: -->
+                    <!-- <div class="admin-metric-card"><p class="admin-metric-title">Open Support Tickets</p><p class="admin-metric-value">8</p></div> -->
+                    <!-- <div class="admin-metric-card"><p class="admin-metric-title">System Health</p><p class="admin-metric-value text-green-600">Nominal</p></div> -->
+                </section>
+
+                <!-- Quick Access Links -->
+                <section class="mb-8">
+                    <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Quick Access</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <a href="#" class="quick-access-link quick-link-item" data-target="KYC">Manage User KYC/AML</a>
+                        <a href="#" class="quick-access-link quick-link-item" data-target="AssetSubmissions">Review Asset Submissions</a>
+                        <a href="#" class="quick-access-link quick-link-item" data-target="SystemSettings">System Settings</a>
+                    </div>
+                </section>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                    <!-- Pending Tasks Section -->
+                    <section class="lg:col-span-2 space-y-6">
+                        <div>
+                            <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Pending Tasks</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-[var(--white-bg)] p-4 shadow rounded-lg">
+                                    <h3 class="text-md font-semibold text-[var(--text-primary)] mb-2">Users Awaiting KYC Approval</h3>
+                                    <ul class="divide-y divide-[var(--border-color)] text-sm">
+                                        <li class="py-2 flex justify-between items-center"><span>Alice Wonderland (Oct 25, 2023)</span> <button class="table-action-button pending-action-item" data-user-id="user1">Actions</button></li>
+                                        <li class="py-2 flex justify-between items-center"><span>Bob The Builder (Oct 24, 2023)</span> <button class="table-action-button pending-action-item" data-user-id="user2">Actions</button></li>
+                                        <li class="py-2 flex justify-between items-center"><span>Charlie Brown (Oct 23, 2023)</span> <button class="table-action-button pending-action-item" data-user-id="user3">Actions</button></li>
+                                    </ul>
+                                </div>
+                                <div class="bg-[var(--white-bg)] p-4 shadow rounded-lg">
+                                    <h3 class="text-md font-semibold text-[var(--text-primary)] mb-2">Assets Pending Review</h3>
+                                    <ul class="divide-y divide-[var(--border-color)] text-sm">
+                                        <li class="py-2 flex justify-between items-center"><span>Ocean View Villa (John D.)</span> <button class="table-action-button pending-action-item" data-asset-id="asset1">Review</button></li>
+                                        <li class="py-2 flex justify-between items-center"><span>Rare Art Collection (Jane S.)</span> <button class="table-action-button pending-action-item" data-asset-id="asset2">Review</button></li>
+                                        <li class="py-2 flex justify-between items-center"><span>Wind Farm Shares (Eco Corp)</span> <button class="table-action-button pending-action-item" data-asset-id="asset3">Review</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Basic Charts (Placeholders) -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                             <div class="bg-[var(--white-bg)] p-4 shadow rounded-lg min-h-[200px] flex items-center justify-center"><p class="text-sm text-[var(--text-secondary)]">User Growth Over Time Chart Area</p></div>
+                             <div class="bg-[var(--white-bg)] p-4 shadow rounded-lg min-h-[200px] flex items-center justify-center"><p class="text-sm text-[var(--text-secondary)]">Asset Tokenization Trends Chart Area</p></div>
+                        </div>
+                    </section>
+
+                    <!-- Recent Activity Feed (Placeholder) -->
+                    <section class="lg:col-span-1 bg-[var(--white-bg)] p-4 shadow rounded-lg">
+                        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3 border-b border-[var(--border-color)] pb-2">Recent Activity</h2>
+                        <ul class="space-y-3 text-xs">
+                            <li class="flex items-start"><span class="bg-blue-500 w-2 h-2 rounded-full mt-1.5 mr-2 shrink-0"></span>User 'john.doe@email.com' registered. <span class="ml-auto text-gray-400">10:30 AM</span></li>
+                            <li class="flex items-start"><span class="bg-green-500 w-2 h-2 rounded-full mt-1.5 mr-2 shrink-0"></span>Asset 'Luxury Villa Ibiza' submitted for review by 'jane.doe@email.com'. <span class="ml-auto text-gray-400">09:15 AM</span></li>
+                            <li class="flex items-start"><span class="bg-yellow-500 w-2 h-2 rounded-full mt-1.5 mr-2 shrink-0"></span>KYC for 'test.user@example.com' approved. <span class="ml-auto text-gray-400">Yesterday</span></li>
+                            <li class="flex items-start"><span class="bg-red-500 w-2 h-2 rounded-full mt-1.5 mr-2 shrink-0"></span>System maintenance scheduled for 3 AM UTC. <span class="ml-auto text-gray-400">2 days ago</span></li>
+                        </ul>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.quick-link-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert(`Navigating to ${e.target.dataset.target} section (simulated).`);
+            });
+        });
+        document.querySelectorAll('.pending-action-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const userId = e.target.dataset.userId;
+                const assetId = e.target.dataset.assetId;
+                if (userId) alert(`Performing action for user ID: ${userId} (simulated).`);
+                if (assetId) alert(`Performing action for asset ID: ${assetId} (simulated).`);
+            });
+        });
+        // Placeholder for sidebar navigation (if it were dynamic)
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('bg-[var(--sidebar-active-bg)]', 'text-white'));
+                e.currentTarget.classList.add('bg-[var(--sidebar-active-bg)]', 'text-white');
+                alert(`Navigating to ${e.currentTarget.textContent.trim()} (simulated).`);
+            });
+        });
+
+    </script>
+</body>
+</html>

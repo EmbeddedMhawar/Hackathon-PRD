@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenizeRWA - Asset Submissions</title>
+    <link rel="icon" href="data:image/x-icon;base64,">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" as="style" onload="this.rel='stylesheet'">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #019863;
+            --primary-darker: #017a50;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --light-bg: #f9fafb;
+            --white-bg: #ffffff;
+            --sidebar-bg: #1f2937;
+            --sidebar-text: #d1d5db;
+            --sidebar-hover-bg: #374151;
+            --sidebar-active-bg: var(--primary-color);
+            --input-bg: var(--white-bg);
+            --input-focus-border: var(--primary-color);
+
+            --status-pending-bg: #fffbeb; /* yellow-50 */
+            --status-pending-text: #b45309; /* yellow-700 */
+            --status-under-review-bg: #eff6ff; /* blue-50 */
+            --status-under-review-text: #1e40af; /* blue-800 */
+            --status-awaiting-info-bg: #ffedd5; /* orange-50 */
+            --status-awaiting-info-text: #c2410c; /* orange-700 */
+            --status-approved-bg: #ecfdf5; /* green-50 */
+            --status-approved-text: #065f46; /* green-800 */
+            --status-rejected-bg: #fee2e2; /* red-50 */
+            --status-rejected-text: #991b1b; /* red-800 */
+        }
+        .form-input, .form-select {
+            @apply w-full rounded-md border border-[var(--border-color)] bg-[var(--input-bg)] p-2.5 text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:border-[var(--input-focus-border)] focus:ring-1 focus:ring-[var(--input-focus-border)] transition-colors duration-200;
+        }
+        .table-header-clickable {
+            @apply px-4 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider cursor-pointer hover:text-[var(--text-primary)];
+        }
+        .status-pill {
+            @apply px-2.5 py-0.5 text-xs font-semibold rounded-full inline-block leading-tight capitalize;
+        }
+        .action-button {
+             @apply py-2 px-4 text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-1 transition-colors duration-200;
+        }
+        .primary-action-button {
+            @apply text-white bg-[var(--primary-color)] hover:bg-[var(--primary-darker)] focus:ring-[var(--primary-color)];
+        }
+        .table-action-link {
+            @apply text-[var(--primary-color)] hover:text-[var(--primary-darker)] hover:underline text-xs font-medium;
+        }
+         .table-action-button-sm { /* For smaller buttons in table */
+            @apply px-2 py-1 text-xs font-medium rounded-md border transition-colors;
+        }
+        .pagination-button {
+            @apply inline-flex items-center justify-center px-3 py-1.5 border border-[var(--border-color)] text-sm font-medium rounded-md text-[var(--text-secondary)] bg-[var(--white-bg)] hover:bg-gray-50 transition-colors;
+        }
+        .pagination-button.active {
+            @apply bg-[var(--primary-color)] text-white border-[var(--primary-color)];
+        }
+    </style>
+</head>
+<body class="bg-[var(--light-bg)] text-[var(--text-primary)]" style="font-family: Inter, 'Noto Sans', sans-serif;">
+    <div class="flex min-h-screen">
+        <!-- Sidebar (Placeholder) -->
+        <aside class="w-64 bg-[var(--sidebar-bg)] text-[var(--sidebar-text)] p-5 space-y-4 fixed top-0 left-0 h-full shadow-lg lg:block hidden">
+            <div class="flex items-center gap-2 pb-4 border-b border-gray-700">
+                <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                <h1 class="text-xl font-bold text-white">TokenizeRWA Admin</h1>
+            </div>
+            <nav id="adminSidebarNav" class="mt-5 flex-1 space-y-1">
+                <a href="0 Admin Dashboard.html" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Dashboard</a>
+                <a href="1 User Management Table.html" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">User Management</a>
+                <a href="#" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md bg-[var(--sidebar-active-bg)] text-white">Asset Submissions</a>
+                <!-- Add other links -->
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 lg:ml-64">
+             <header class="bg-[var(--white-bg)] shadow-sm flex items-center justify-between px-6 py-3 sticky top-0 z-40">
+                <h1 class="text-xl font-semibold text-[var(--text-primary)]">Asset Submissions Queue</h1>
+            </header>
+
+            <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <!-- Filters and Search Section -->
+                <section class="mb-6 p-4 border border-[var(--border-color)] rounded-lg bg-[var(--white-bg)]">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+                        <div>
+                            <label for="filterAssetType" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Asset Type</label>
+                            <select id="filterAssetType" class="form-select"><option value="all">All</option><option value="Real Estate">Real Estate</option><option value="Art">Art</option><option value="Collectible">Collectible</option><option value="Debt Instrument">Debt Instrument</option></select>
+                        </div>
+                        <div>
+                            <label for="filterStatus" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Status</label>
+                            <select id="filterStatus" class="form-select"><option value="all">All</option><option value="Pending Initial Review">Pending Initial Review</option><option value="Under Review">Under Review</option><option value="Awaiting More Info">Awaiting More Info</option><option value="Approved for Tokenization">Approved</option><option value="Rejected">Rejected</option></select>
+                        </div>
+                        <div>
+                            <label for="filterReviewer" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Assigned Reviewer</label>
+                            <select id="filterReviewer" class="form-select"><option value="all">All</option><option value="Admin1">Admin One</option><option value="Admin2">Admin Two</option><option value="unassigned">Unassigned</option></select>
+                        </div>
+                        <button id="applyFiltersBtn" class="action-button primary-action-button w-full">Apply Filters</button>
+                    </div>
+                    <div class="mt-4">
+                        <label for="assetSearch" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Search Assets</label>
+                        <div class="relative">
+                            <input type="search" id="assetSearch" placeholder="Search by Asset Name, Owner, or ID..." class="form-input pr-10">
+                             <button id="assetSearchBtn" class="absolute inset-y-0 right-0 pr-3 flex items-center text-[var(--text-secondary)] hover:text-[var(--primary-color)]">
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Asset Submissions Table -->
+                <div class="overflow-x-auto shadow-md border border-[var(--border-color)] rounded-lg bg-[var(--white-bg)]">
+                    <table class="min-w-full divide-y divide-[var(--border-color)]">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="table-header-clickable sortable-header" data-sort="id">Asset ID</th>
+                                <th class="table-header-clickable sortable-header" data-sort="name">Asset Name</th>
+                                <th class="table-header-clickable sortable-header" data-sort="owner">Asset Owner</th>
+                                <th class="table-header-clickable sortable-header" data-sort="type">Asset Type</th>
+                                <th class="table-header-clickable sortable-header" data-sort="submission_date">Submission Date</th>
+                                <th class="table-header-clickable sortable-header" data-sort="status">Current Status</th>
+                                <th class="table-header-clickable sortable-header" data-sort="reviewer">Assigned To</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-[var(--border-color)] text-sm">
+                            <tr>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs font-mono">AST001</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-primary)] font-medium">Downtown Office Bldg</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">John Doe (USR001)</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Real Estate</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">2023-10-01</td>
+                                <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-approved-bg)] text-[var(--status-approved-text)]">Approved</span></td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Admin One</td>
+                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><button class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST001">View/Review</button></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs font-mono">AST002</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-primary)] font-medium">Vintage Art Collection</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Jane Smith (USR002)</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Art</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">2023-11-15</td>
+                                <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-pending-bg)] text-[var(--status-pending-text)]">Pending Initial Review</span></td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Unassigned</td>
+                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><button class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST002">View/Review</button><button class="table-action-button-sm border-blue-500 text-blue-600 hover:bg-blue-50 asset-action" data-action="assign" data-id="AST002">Assign</button></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs font-mono">AST003</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-primary)] font-medium">Renewable Energy Project</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Eco Power Corp (OWN015)</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Infrastructure</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">2024-01-05</td>
+                                <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-under-review-bg)] text-[var(--status-under-review-text)]">Under Review</span></td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Admin Two</td>
+                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><button class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST003">View/Review</button></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs font-mono">AST004</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-primary)] font-medium">Luxury Apartment Complex</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Realty Inc. (OWN007)</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Real Estate</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">2023-09-01</td>
+                                <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-rejected-bg)] text-[var(--status-rejected-text)]">Rejected</span></td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Admin One</td>
+                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><button class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST004">View/Review</button></td>
+                            </tr>
+                             <tr>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs font-mono">AST005</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-primary)] font-medium">Rare Stamp Collection</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Collector Bob (USR088)</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Collectible</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">2024-01-20</td>
+                                <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-awaiting-info-bg)] text-[var(--status-awaiting-info-text)]">Awaiting More Info</span></td>
+                                <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Admin Two</td>
+                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><button class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST005">View/Review</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Pagination -->
+                 <nav class="mt-6 flex items-center justify-between" aria-label="Pagination">
+                    <div class="hidden sm:block"><p class="text-sm text-[var(--text-secondary)]">Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">15</span> results</p></div>
+                    <div class="flex flex-1 justify-between sm:justify-end space-x-2">
+                        <button class="pagination-button pagination-prev">Previous</button>
+                        <button class="pagination-button pagination-page active" data-page="1">1</button>
+                        <button class="pagination-button pagination-page" data-page="2">2</button>
+                        <button class="pagination-button pagination-page" data-page="3">3</button>
+                        <button class="pagination-button pagination-next">Next</button>
+                    </div>
+                </nav>
+            </main>
+        </div>
+    </div>
+    <script>
+        document.getElementById('applyFiltersBtn').addEventListener('click', () => {
+            const type = document.getElementById('filterAssetType').value;
+            const status = document.getElementById('filterStatus').value;
+            const reviewer = document.getElementById('filterReviewer').value;
+            alert(`Applying filters: Type=${type}, Status=${status}, Reviewer=${reviewer} (simulated)`);
+        });
+
+        document.querySelectorAll('.sortable-header').forEach(header => {
+            header.addEventListener('click', () => {
+                alert(`Sorting by ${header.dataset.sort} (simulated)`);
+            });
+        });
+
+        const assetSearchInput = document.getElementById('assetSearch');
+        const assetSearchBtn = document.getElementById('assetSearchBtn');
+        function performAssetSearch() {
+            const searchTerm = assetSearchInput.value;
+            if(searchTerm) alert(`Searching for asset: ${searchTerm} (simulated)`);
+            else alert('Asset search cleared (simulated)');
+        }
+        assetSearchBtn.addEventListener('click', performAssetSearch);
+        assetSearchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performAssetSearch(); });
+        assetSearchInput.addEventListener('search', () => { if(!assetSearchInput.value) performAssetSearch(); });
+
+        document.querySelectorAll('.asset-action').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const action = e.target.dataset.action;
+                const assetId = e.target.dataset.id;
+                alert(`Action: ${action} for Asset ID: ${assetId} (simulated)`);
+            });
+        });
+
+        document.querySelectorAll('.pagination-page').forEach(button => {
+            button.addEventListener('click', event => {
+                document.querySelectorAll('.pagination-page').forEach(btn => btn.classList.remove('active'));
+                event.currentTarget.classList.add('active');
+                alert(`Navigating to page ${event.currentTarget.dataset.page} (simulated)`);
+            });
+        });
+        document.querySelector('.pagination-prev').addEventListener('click', () => alert('Navigating to previous page (simulated)'));
+        document.querySelector('.pagination-next').addEventListener('click', () => alert('Navigating to next page (simulated)'));
+    </script>
+</body>
+</html>
