@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Profile & Account Management</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; background-color: #f4f7f6; color: #333; }
+    header { background-color: #fff; padding: 15px 30px; display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid #eee; }
+    .avatar-initials { background-color: #e0e0e0; border-radius: 50%; padding: 10px 15px; font-weight: bold; }
+    main { padding: 20px; max-width: 900px; margin: 20px auto; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    h1 { color: #333; text-align: center; margin-bottom: 30px; }
+    .tabs { display: flex; border-bottom: 1px solid #ccc; margin-bottom: 20px; }
+    .tab-link { background-color: transparent; border: none; padding: 10px 20px; cursor: pointer; font-size: 16px; transition: background-color 0.3s, color 0.3s; border-bottom: 3px solid transparent; }
+    .tab-link:hover { background-color: #f0f0f0; }
+    .tab-link.active { border-bottom: 3px solid #007bff; color: #007bff; font-weight: bold; }
+    .tab-content { display: none; padding: 10px; }
+    .tab-content.active-content { display: block; }
+
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+    .form-group input[type="text"], .form-group input[type="tel"], .form-group textarea { width: calc(100% - 22px); padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .read-only-field { background-color: #f0f0f0; padding: 10px; border-radius: 4px; font-size: 14px; color: #777; }
+    .btn { padding: 10px 20px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background-color 0.3s; }
+    .btn-primary { background-color: #007bff; color: white; }
+    .btn-primary:hover { background-color: #0056b3; }
+    .btn-secondary { background-color: #6c757d; color: white; }
+    .btn-secondary:hover { background-color: #545b62; }
+    .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+    #securitySettings h3 { margin-top: 30px; margin-bottom: 15px; color: #333; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+    #securitySettings h3:first-child { margin-top: 0; }
+    .login-activity-log-placeholder { border: 1px dashed #ccc; padding: 20px; text-align: center; color: #777; margin-top: 10px; border-radius: 4px; }
+
+    #notificationPreferences h3 { margin-top: 0; margin-bottom: 20px; color: #333; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+    .checkbox-group { margin-bottom: 20px; padding: 10px; border: 1px solid #f0f0f0; border-radius: 4px; }
+    .checkbox-group label { display: flex; align-items: center; font-weight: normal; font-size: 16px; color: #333; }
+    .checkbox-group input[type="checkbox"] { margin-right: 10px; width: auto; transform: scale(1.2); }
+    .checkbox-description { font-size: 0.9em; color: #666; margin-top: 5px; margin-left: 27px; /* Align with text, not checkbox */ }
+
+    @media (max-width: 600px) {
+      .tabs { flex-direction: column; }
+      .tab-link { border-bottom: 1px solid #eee; }
+      .tab-link.active { border-bottom: 3px solid #007bff; }
+      header { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="avatar-initials">UA</div>
+  </header>
+  <main>
+    <h1>User Profile & Account Management</h1>
+    <div class="tabs">
+      <button class="tab-link active" data-tab="profileInfo">Profile Information</button>
+      <button class="tab-link" data-tab="securitySettings">Security Settings</button>
+      <button class="tab-link" data-tab="notificationPreferences">Notification Preferences</button>
+    </div>
+    <div id="profileInfo" class="tab-content active-content">
+      <form>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <p id="email" class="read-only-field">user@example.com (Non-editable)</p>
+        </div>
+        <div class="form-group">
+          <label for="kycStatus">KYC Status:</label>
+          <p id="kycStatus" class="read-only-field">Verified (Non-editable)</p>
+        </div>
+        <div class="form-group">
+          <label for="fullName">Full Name:</label>
+          <input type="text" id="fullName" name="fullName" value="Current User Name">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number:</label>
+          <input type="tel" id="phone" name="phone" value="+1234567890">
+        </div>
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <textarea id="address" name="address">123 Main St, Anytown, USA</textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+    <div id="securitySettings" class="tab-content">
+      <h3>Change Password</h3>
+      <form>
+        <div class="form-group">
+          <label for="currentPassword">Current Password:</label>
+          <input type="password" id="currentPassword" name="currentPassword">
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New Password:</label>
+          <input type="password" id="newPassword" name="newPassword">
+        </div>
+        <div class="form-group">
+          <label for="confirmNewPassword">Confirm New Password:</label>
+          <input type="password" id="confirmNewPassword" name="confirmNewPassword">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Change Password</button>
+        </div>
+      </form>
+
+      <h3>Two-Factor Authentication (2FA)</h3>
+      <p>Manage your Two-Factor Authentication settings here. (Placeholder for 2FA setup/management)</p>
+      <div class="form-group">
+        <button class="btn btn-secondary" disabled>Setup 2FA (Coming Soon)</button>
+      </div>
+
+      <h3>Recent Login Activity</h3>
+      <p>View your recent login activity here. (Placeholder for login activity log)</p>
+      <div class="login-activity-log-placeholder">
+        No recent activity to display.
+      </div>
+    </div>
+    <div id="notificationPreferences" class="tab-content">
+      <h3>Notification Preferences</h3>
+      <form>
+        <div class="form-group checkbox-group">
+          <label><input type="checkbox" name="notification" value="transactionAlerts" checked> Transaction Alerts</label>
+          <p class="checkbox-description">Receive alerts for successful transactions and important account activities.</p>
+        </div>
+        <div class="form-group checkbox-group">
+          <label><input type="checkbox" name="notification" value="platformUpdates" checked> Platform Updates</label>
+          <p class="checkbox-description">Stay informed about new features, platform maintenance, and important announcements.</p>
+        </div>
+        <div class="form-group checkbox-group">
+          <label><input type="checkbox" name="notification" value="marketing"> Marketing & Promotions</label>
+          <p class="checkbox-description">Receive occasional emails about new investment opportunities and promotional offers.</p>
+        </div>
+        <div class="form-group checkbox-group">
+          <label><input type="checkbox" name="notification" value="newsletter"> Monthly Newsletter</label>
+          <p class="checkbox-description">Get our curated monthly newsletter with market insights and platform highlights.</p>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Save Preferences</button>
+        </div>
+      </form>
+    </div>
+  </main>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+
+            // Deactivate all tabs and content
+            tabLinks.forEach(function(innerLink) {
+                innerLink.classList.remove('active');
+            });
+            tabContents.forEach(function(content) {
+                content.classList.remove('active-content');
+                content.style.display = 'none'; // Ensure content is hidden
+            });
+
+            // Activate clicked tab and corresponding content
+            this.classList.add('active');
+            const activeContent = document.getElementById(tabId);
+            if (activeContent) {
+                activeContent.classList.add('active-content');
+                activeContent.style.display = 'block'; // Ensure active content is shown
+            }
+        });
+    });
+
+    // Ensure the default active tab's content is displayed on load
+    const defaultActiveTab = document.querySelector('.tab-link.active');
+    if (defaultActiveTab) {
+        const defaultTabId = defaultActiveTab.getAttribute('data-tab');
+        const defaultActiveContent = document.getElementById(defaultTabId);
+        if (defaultActiveContent) {
+            // It should already have active-content if it's the default
+            // but ensure display is block as CSS might initially hide it
+            defaultActiveContent.style.display = 'block';
+        }
+    } else if (tabLinks.length > 0) {
+        // If no tab is explicitly active, activate the first one
+        tabLinks[0].classList.add('active');
+        const firstTabId = tabLinks[0].getAttribute('data-tab');
+        const firstActiveContent = document.getElementById(firstTabId);
+        if (firstActiveContent) {
+            firstActiveContent.classList.add('active-content');
+            firstActiveContent.style.display = 'block';
+        }
+    }
+
+
+    // Profile Info Form
+    const profileInfoForm = document.querySelector('#profileInfo form');
+    if (profileInfoForm) {
+        profileInfoForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Profile Information saved! (Placeholder - no actual data sent)');
+        });
+    }
+
+    // Change Password Form
+    const changePasswordForm = document.querySelector('#securitySettings form');
+    if (changePasswordForm) {
+        changePasswordForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Basic validation example (can be expanded)
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+            if (newPassword !== confirmNewPassword) {
+                alert('New passwords do not match! (Placeholder)');
+                return;
+            }
+            alert('Password change initiated! (Placeholder - no actual data sent)');
+            // Optionally clear fields
+            // document.getElementById('currentPassword').value = '';
+            // document.getElementById('newPassword').value = '';
+            // document.getElementById('confirmNewPassword').value = '';
+        });
+    }
+
+    // Notification Preferences Form
+    const notificationPreferencesForm = document.querySelector('#notificationPreferences form');
+    if (notificationPreferencesForm) {
+        notificationPreferencesForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Notification Preferences saved! (Placeholder - no actual data sent)');
+        });
+    }
+});
+  </script>
+</body>
+</html>
