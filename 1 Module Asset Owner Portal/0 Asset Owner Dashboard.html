@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenizeRWA - Asset Owner Dashboard</title>
+    <link rel="icon" href="data:image/x-icon;base64,">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" as="style" onload="this.rel='stylesheet'">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #019863;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --input-focus-border: #019863;
+            --button-hover-bg: #017a50;
+            --light-bg: #f9fafb; /* Added for dashboard elements */
+            --white-bg: #ffffff;
+            --success-text: #059669; /* Tailwind green-700 */
+            --pending-text: #db2777; /* Tailwind pink-600 */
+            --rejected-text: #ef4444; /* Tailwind red-500 */
+            --approved-text: #65a30d; /* Tailwind lime-600 */
+
+
+        }
+        .form-input {
+            @apply w-full rounded-lg border border-[var(--border-color)] bg-[var(--input-bg)] p-3 text-base text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:border-[var(--input-focus-border)] focus:ring-1 focus:ring-[var(--input-focus-border)] transition-colors duration-200;
+        }
+        .status-pill {
+            @apply px-2.5 py-0.5 text-xs font-medium rounded-full inline-block;
+        }
+        .status-pending { @apply bg-pink-100 text-[var(--pending-text)];}
+        .status-approved { @apply bg-lime-100 text-[var(--approved-text)];}
+        .status-tokenized { @apply bg-green-100 text-[var(--success-text)];}
+        .status-rejected { @apply bg-red-100 text-[var(--rejected-text)];}
+
+        .primary-button {
+            @apply py-2.5 px-5 text-sm font-semibold text-white bg-[var(--primary-color)] hover:bg-[var(--button-hover-bg)] rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] transition-colors duration-200;
+        }
+         .secondary-button {
+            @apply py-2 px-4 text-xs font-medium text-[var(--primary-color)] hover:bg-green-50 rounded-md border border-[var(--primary-color)] transition-colors duration-200;
+        }
+    </style>
+</head>
+<body class="bg-[var(--light-bg)] text-[var(--text-primary)]" style="font-family: Inter, 'Noto Sans', sans-serif;">
+    <div class="flex min-h-screen flex-col">
+        <!-- Main Header -->
+        <header class="bg-[var(--white-bg)] shadow-md sticky top-0 z-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                             <svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                            <span class="text-xl font-bold tracking-tight text-[var(--text-primary)]">TokenizeRWA</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm font-medium text-[var(--text-secondary)] mr-4">Asset Owner Portal</span>
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[var(--text-secondary)]"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5" /></svg>
+                        </button>
+                         <div class="ml-2 flex items-center justify-center h-10 w-10 rounded-full bg-[var(--primary-color)] text-white text-lg font-semibold">AO</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold text-[var(--text-primary)]">Asset Owner Dashboard</h1>
+                <button id="submitNewAssetBtn" class="primary-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 inline-block">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Submit New Asset
+                </button>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+                <div class="bg-[var(--white-bg)] overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-[var(--text-secondary)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125V6.375c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v.001c0 .621.504 1.125 1.125 1.125z" /></svg>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-[var(--text-secondary)] truncate">Total Assets Submitted</dt>
+                                    <dd class="text-3xl font-semibold text-[var(--text-primary)]">5</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-[var(--white-bg)] overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-[var(--text-secondary)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h7.5m-7.5 0l-.227-.008a2.25 2.25 0 00-2.222 2.223v11.25a2.25 2.25 0 002.222 2.223l.227-.008" /></svg>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-[var(--text-secondary)] truncate">Assets Pending Review</dt>
+                                    <dd class="text-3xl font-semibold text-[var(--text-primary)]">2</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-[var(--white-bg)] overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-[var(--text-secondary)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" /></svg>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-[var(--text-secondary)] truncate">Assets Tokenized</dt>
+                                    <dd class="text-3xl font-semibold text-[var(--text-primary)]">3</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-[var(--white-bg)] overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-[var(--text-secondary)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-[var(--text-secondary)] truncate">Total Value Tokenized</dt>
+                                    <dd class="text-3xl font-semibold text-[var(--text-primary)]">$1,250,000</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table of Submitted Assets -->
+            <div class="bg-[var(--white-bg)] shadow overflow-hidden rounded-lg">
+                <div class="px-4 py-5 sm:px-6">
+                    <h3 class="text-lg leading-6 font-medium text-[var(--text-primary)]">
+                        My Submitted Assets
+                    </h3>
+                    <p class="mt-1 max-w-2xl text-sm text-[var(--text-secondary)]">
+                        Track the status of your assets through the tokenization process.
+                    </p>
+                </div>
+                <div class="border-t border-[var(--border-color)] overflow-x-auto">
+                    <table class="min-w-full divide-y divide-[var(--border-color)]">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Asset Name</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Submission Date</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Status</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Type</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Tokenized Value</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-[var(--white-bg)] divide-y divide-[var(--border-color)]">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--text-primary)]">Downtown Office Building</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">2023-10-01</td>
+                                <td class="px-6 py-4 whitespace-nowrap"><span class="status-pill status-tokenized">Tokenized</span></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">Real Estate</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">$750,000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button class="secondary-button view-details-btn" data-asset-id="1">View Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--text-primary)]">Vintage Art Collection</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">2023-11-15</td>
+                                <td class="px-6 py-4 whitespace-nowrap"><span class="status-pill status-approved">Approved</span></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">Art</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">$500,000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button class="secondary-button view-details-btn" data-asset-id="2">View Details</button>
+                                    <button class="secondary-button manage-tokenization-btn ml-2" data-asset-id="2">Manage</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--text-primary)]">Renewable Energy Project</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">2024-01-05</td>
+                                 <td class="px-6 py-4 whitespace-nowrap"><span class="status-pill status-pending">Pending Review</span></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">Infrastructure</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">-</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button class="secondary-button view-details-btn" data-asset-id="3">View Details</button>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--text-primary)]">Luxury Apartment Complex</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">2023-09-01</td>
+                                <td class="px-6 py-4 whitespace-nowrap"><span class="status-pill status-rejected">Rejected</span></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">Real Estate</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">-</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button class="secondary-button view-details-btn" data-asset-id="4">View Details</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Optional Chart Placeholder -->
+            <div class="mt-8 p-4 bg-[var(--white-bg)] shadow rounded-lg">
+                <h3 class="text-lg font-medium text-[var(--text-primary)] mb-2">Asset Status Distribution</h3>
+                <p class="text-sm text-[var(--text-secondary)]">Note: A pie chart visualizing asset statuses will be displayed here.</p>
+                <div class="mt-4 h-48 bg-gray-100 flex items-center justify-center rounded">
+                    <span class="text-gray-400">Chart Placeholder</span>
+                </div>
+            </div>
+
+            <!-- Optional Recent Activity Placeholder -->
+             <div class="mt-8 p-4 bg-[var(--white-bg)] shadow rounded-lg">
+                <h3 class="text-lg font-medium text-[var(--text-primary)] mb-2">Recent Activity</h3>
+                <ul class="divide-y divide-[var(--border-color)]">
+                    <li class="py-3 text-sm text-[var(--text-secondary)]">Your asset "Downtown Office Building" was successfully tokenized.</li>
+                    <li class="py-3 text-sm text-[var(--text-secondary)]">New documents requested for "Renewable Energy Project".</li>
+                    <li class="py-3 text-sm text-[var(--text-secondary)]">"Vintage Art Collection" has been approved for tokenization.</li>
+                </ul>
+            </div>
+
+
+        </main>
+
+        <footer class="bg-[var(--white-bg)] border-t border-[var(--border-color)] mt-auto">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-[var(--text-secondary)]">
+                © <script>document.write(new Date().getFullYear())</script> TokenizeRWA. All Rights Reserved.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('submitNewAssetBtn').addEventListener('click', function() {
+            alert('Navigating to Submit New Asset page (simulated).');
+            // window.location.href = '/path-to-submit-new-asset-form'; // Actual navigation
+        });
+
+        const viewDetailsButtons = document.querySelectorAll('.view-details-btn');
+        viewDetailsButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const assetId = this.dataset.assetId;
+                alert('Navigating to details page for asset ID: ' + assetId + ' (simulated).');
+                // window.location.href = '/path-to-asset-details/' + assetId; // Actual navigation
+            });
+        });
+
+        const manageTokenizationButtons = document.querySelectorAll('.manage-tokenization-btn');
+        manageTokenizationButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const assetId = this.dataset.assetId;
+                alert('Navigating to tokenization management page for asset ID: ' + assetId + ' (simulated).');
+                // window.location.href = '/path-to-manage-tokenization/' + assetId; // Actual navigation
+            });
+        });
+    </script>
+</body>
+</html>
