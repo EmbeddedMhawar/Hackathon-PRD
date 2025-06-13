@@ -132,7 +132,7 @@
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $3,000,000</p>
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> 8.5% p.a.</p>
                                 </div>
-                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET001">View Details</button>
+                                <a href="2 Asset Detail Page.html?assetId=ASSET001" class="asset-card-button view-details-btn" data-asset-id="ASSET001">View Details</a>
                             </div>
                         </div>
                         <div class="asset-card">
@@ -145,7 +145,7 @@
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $250,000</p>
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> N/A (Growth)</p>
                                 </div>
-                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET002">View Details</button>
+                                <a href="2 Asset Detail Page.html?assetId=ASSET002" class="asset-card-button view-details-btn" data-asset-id="ASSET002">View Details</a>
                             </div>
                         </div>
                         <div class="asset-card">
@@ -158,7 +158,7 @@
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $1,000,000</p>
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> 12% p.a.</p>
                                 </div>
-                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET003">Invest Now</button>
+                                <a href="2 Asset Detail Page.html?assetId=ASSET003" class="asset-card-button view-details-btn" data-asset-id="ASSET003">Invest Now</a>
                             </div>
                         </div>
                          <div class="asset-card">
@@ -171,7 +171,7 @@
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $10,000,000</p>
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> 7.0% p.a.</p>
                                 </div>
-                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET004">View Details</button>
+                                <a href="2 Asset Detail Page.html?assetId=ASSET004" class="asset-card-button view-details-btn" data-asset-id="ASSET004">View Details</a>
                             </div>
                         </div>
                         <div class="asset-card">
@@ -184,7 +184,7 @@
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $150,000</p>
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> Collector's Item</p>
                                 </div>
-                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET005">View Details</button>
+                                <a href="2 Asset Detail Page.html?assetId=ASSET005" class="asset-card-button view-details-btn" data-asset-id="ASSET005">View Details</a>
                             </div>
                         </div>
                          <div class="asset-card">
@@ -197,7 +197,7 @@
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Total Value:</strong> $500,000</p>
                                     <p><strong class="font-medium text-[var(--text-secondary)]">Exp. Yield:</strong> 4.5% p.a.</p>
                                 </div>
-                                <button class="asset-card-button view-details-btn" data-asset-id="ASSET006">Invest Now</button>
+                                <a href="2 Asset Detail Page.html?assetId=ASSET006" class="asset-card-button view-details-btn" data-asset-id="ASSET006">Invest Now</a>
                             </div>
                         </div>
                     </div>
@@ -226,49 +226,40 @@
     </div>
 
     <script>
-        document.querySelectorAll('.filter-option').forEach(item => {
-            item.addEventListener('change', event => { // 'change' for checkboxes/radios
-                const filterType = event.target.dataset.filterType;
-                const filterValue = event.target.value;
-                alert(`Filter applied: ${filterType} = ${filterValue} (simulated)`);
-            });
-        });
+        // Filter/Sort/Search JS alerts removed as they are not hrefs.
+        // document.querySelectorAll('.filter-option').forEach(item => {
+        //     item.addEventListener('change', event => {
+        //         // Actual filtering logic would go here
+        //     });
+        // });
+        // document.getElementById('sortAssets').addEventListener('change', event => {
+        //     // Actual sorting logic would go here
+        // });
+        // document.getElementById('searchAssets').addEventListener('search', event => {
+        //      // Actual search logic would go here
+        // });
+        //  document.getElementById('searchAssets').addEventListener('keypress', event => {
+        //     if (event.key === 'Enter') {
+        //          // Actual search logic would go here
+        //     }
+        // });
 
-        document.getElementById('sortAssets').addEventListener('change', event => {
-            alert(`Sort by: ${event.target.value} (simulated)`);
-        });
+        // View details buttons are now <a> tags, navigation handled by href.
+        // document.querySelectorAll('.view-details-btn').forEach(button => {
+        //     button.addEventListener('click', event => {
+        //         // const assetId = event.target.dataset.assetId;
+        //         // window.location.href = `2 Asset Detail Page.html?assetId=${assetId}`;
+        //     });
+        // });
 
-        document.getElementById('searchAssets').addEventListener('search', event => { // Use 'search' event for clearing
-             if (event.target.value) {
-                alert(`Searching for: ${event.target.value} (simulated)`);
-             } else {
-                alert('Search cleared (simulated)');
-             }
-        });
-         document.getElementById('searchAssets').addEventListener('keypress', event => {
-            if (event.key === 'Enter') {
-                 alert(`Searching for: ${event.target.value} (simulated)`);
-            }
-        });
-
-
-        document.querySelectorAll('.view-details-btn').forEach(button => {
-            button.addEventListener('click', event => {
-                const assetId = event.target.dataset.assetId;
-                alert(`Viewing details for asset ID: ${assetId} (simulated)`);
-            });
-        });
-
-        document.querySelectorAll('.pagination-page').forEach(button => {
-            button.addEventListener('click', event => {
-                document.querySelectorAll('.pagination-page').forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
-                alert(`Navigating to page ${event.target.dataset.page} (simulated)`);
-            });
-        });
-        document.querySelector('.pagination-prev').addEventListener('click', () => alert('Navigating to previous page (simulated)'));
-        document.querySelector('.pagination-next').addEventListener('click', () => alert('Navigating to next page (simulated)'));
-
+        // Pagination JS alerts removed. Actual pagination logic is complex.
+        // document.querySelectorAll('.pagination-page').forEach(button => {
+        //     button.addEventListener('click', event => {
+        //         // Actual pagination logic
+        //     });
+        // });
+        // document.querySelector('.pagination-prev').addEventListener('click', () => { /* Actual logic */ });
+        // document.querySelector('.pagination-next').addEventListener('click', () => { /* Actual logic */ });
     </script>
 </body>
 </html>

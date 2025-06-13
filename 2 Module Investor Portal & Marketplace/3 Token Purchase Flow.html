@@ -135,7 +135,7 @@
                     </div>
                     <div class="flex items-start mt-4">
                         <input id="termsCheckbox" name="termsCheckbox" type="checkbox" class="form-checkbox mt-0.5">
-                        <label for="termsCheckbox" class="ml-2 text-sm text-[var(--text-secondary)]">I agree to the <a href="#" class="text-[var(--primary-color)] hover:underline">Terms and Conditions of Token Sale</a>.</label>
+                        <label for="termsCheckbox" class="ml-2 text-sm text-[var(--text-secondary)]">I agree to the <a href="TBD_terms_and_conditions_sale.html" class="text-[var(--primary-color)] hover:underline">Terms and Conditions of Token Sale</a>.</label>
                     </div>
                 </div>
 
@@ -152,7 +152,7 @@
                         <h3 class="text-2xl font-bold text-[var(--primary-color)]">Purchase Successful!</h3>
                         <p class="text-[var(--text-secondary)]">Your tokens have been successfully purchased and allocated to your account.</p>
                         <p class="text-sm">Transaction ID: <span class="font-mono text-xs bg-gray-100 p-1 rounded">TXN_SIMULATED_123ABC789</span></p>
-                        <a href="#" id="viewTransactionHistoryBtn" class="inline-block mt-2 text-sm text-[var(--primary-color)] hover:underline">View Transaction History &rarr;</a>
+                        <a href="4 Transaction History Page.html" id="viewTransactionHistoryBtn" class="inline-block mt-2 text-sm text-[var(--primary-color)] hover:underline">View Transaction History &rarr;</a>
                     </div>
                      <div id="paymentError" class="hidden space-y-3">
                         <svg class="w-16 h-16 text-[var(--error-text)] mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -397,7 +397,7 @@
             }, 3000); // Simulate 3 second delay
         }
 
-        document.getElementById('viewTransactionHistoryBtn').addEventListener('click', () => alert('Navigate to Transaction History (simulated)'));
+        // document.getElementById('viewTransactionHistoryBtn').addEventListener('click', () => alert('Navigate to Transaction History (simulated)')); // Now an <a> tag
 
         // Initial UI setup
         calculateCosts(); // To set initial fee display

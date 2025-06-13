@@ -49,15 +49,15 @@
                 <h1 class="text-xl font-bold text-white">TokenizeRWA Admin</h1>
             </div>
             <nav class="mt-5 flex-1 space-y-1">
-                <a href="#" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md bg-[var(--sidebar-active-bg)] text-white">
+                <a href="0 Admin Dashboard.html" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md bg-[var(--sidebar-active-bg)] text-white">
                     <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
                     Dashboard
                 </a>
-                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">User Management</a>
-                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Asset Submissions</a>
-                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Token Management</a>
-                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Transactions</a>
-                <a href="#" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">System Settings</a>
+                <a href="1 User Management Table.html" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">User Management</a>
+                <a href="3 Asset Submissions Queue Table.html" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Asset Submissions</a>
+                <a href="5 Token Issuance & Management Interface.html" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Token Management</a>
+                <a href="6 Platform-Wide Transaction Monitoring.html" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">Transactions</a>
+                <a href="8 System ConfigurationSettings Page.html" class="nav-item flex items-center px-3 py-2.5 text-sm font-medium rounded-md hover:bg-[var(--sidebar-hover-bg)] hover:text-white">System Settings</a>
             </nav>
         </aside>
 
@@ -88,9 +88,9 @@
                 <section class="mb-8">
                     <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Quick Access</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <a href="#" class="quick-access-link quick-link-item" data-target="KYC">Manage User KYC/AML</a>
-                        <a href="#" class="quick-access-link quick-link-item" data-target="AssetSubmissions">Review Asset Submissions</a>
-                        <a href="#" class="quick-access-link quick-link-item" data-target="SystemSettings">System Settings</a>
+                        <a href="1 User Management Table.html" class="quick-access-link quick-link-item" data-target="KYC">Manage User KYC/AML</a>
+                        <a href="3 Asset Submissions Queue Table.html" class="quick-access-link quick-link-item" data-target="AssetSubmissions">Review Asset Submissions</a>
+                        <a href="8 System ConfigurationSettings Page.html" class="quick-access-link quick-link-item" data-target="SystemSettings">System Settings</a>
                     </div>
                 </section>
 
@@ -103,17 +103,17 @@
                                 <div class="bg-[var(--white-bg)] p-4 shadow rounded-lg">
                                     <h3 class="text-md font-semibold text-[var(--text-primary)] mb-2">Users Awaiting KYC Approval</h3>
                                     <ul class="divide-y divide-[var(--border-color)] text-sm">
-                                        <li class="py-2 flex justify-between items-center"><span>Alice Wonderland (Oct 25, 2023)</span> <button class="table-action-button pending-action-item" data-user-id="user1">Actions</button></li>
-                                        <li class="py-2 flex justify-between items-center"><span>Bob The Builder (Oct 24, 2023)</span> <button class="table-action-button pending-action-item" data-user-id="user2">Actions</button></li>
-                                        <li class="py-2 flex justify-between items-center"><span>Charlie Brown (Oct 23, 2023)</span> <button class="table-action-button pending-action-item" data-user-id="user3">Actions</button></li>
+                                        <li class="py-2 flex justify-between items-center"><span>Alice Wonderland (Oct 25, 2023)</span> <a href="2 User Detail View & Management Actions.html?userId=user1" class="table-action-button pending-action-item" data-user-id="user1">Actions</a></li>
+                                        <li class="py-2 flex justify-between items-center"><span>Bob The Builder (Oct 24, 2023)</span> <a href="2 User Detail View & Management Actions.html?userId=user2" class="table-action-button pending-action-item" data-user-id="user2">Actions</a></li>
+                                        <li class="py-2 flex justify-between items-center"><span>Charlie Brown (Oct 23, 2023)</span> <a href="2 User Detail View & Management Actions.html?userId=user3" class="table-action-button pending-action-item" data-user-id="user3">Actions</a></li>
                                     </ul>
                                 </div>
                                 <div class="bg-[var(--white-bg)] p-4 shadow rounded-lg">
                                     <h3 class="text-md font-semibold text-[var(--text-primary)] mb-2">Assets Pending Review</h3>
                                     <ul class="divide-y divide-[var(--border-color)] text-sm">
-                                        <li class="py-2 flex justify-between items-center"><span>Ocean View Villa (John D.)</span> <button class="table-action-button pending-action-item" data-asset-id="asset1">Review</button></li>
-                                        <li class="py-2 flex justify-between items-center"><span>Rare Art Collection (Jane S.)</span> <button class="table-action-button pending-action-item" data-asset-id="asset2">Review</button></li>
-                                        <li class="py-2 flex justify-between items-center"><span>Wind Farm Shares (Eco Corp)</span> <button class="table-action-button pending-action-item" data-asset-id="asset3">Review</button></li>
+                                        <li class="py-2 flex justify-between items-center"><span>Ocean View Villa (John D.)</span> <a href="4 Asset Review & Approval Page.html?assetId=asset1" class="table-action-button pending-action-item" data-asset-id="asset1">Review</a></li>
+                                        <li class="py-2 flex justify-between items-center"><span>Rare Art Collection (Jane S.)</span> <a href="4 Asset Review & Approval Page.html?assetId=asset2" class="table-action-button pending-action-item" data-asset-id="asset2">Review</a></li>
+                                        <li class="py-2 flex justify-between items-center"><span>Wind Farm Shares (Eco Corp)</span> <a href="4 Asset Review & Approval Page.html?assetId=asset3" class="table-action-button pending-action-item" data-asset-id="asset3">Review</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -140,31 +140,42 @@
         </div>
     </div>
     <script>
-        document.querySelectorAll('.quick-link-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                alert(`Navigating to ${e.target.dataset.target} section (simulated).`);
-            });
-        });
-        document.querySelectorAll('.pending-action-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                const userId = e.target.dataset.userId;
-                const assetId = e.target.dataset.assetId;
-                if (userId) alert(`Performing action for user ID: ${userId} (simulated).`);
-                if (assetId) alert(`Performing action for asset ID: ${assetId} (simulated).`);
-            });
-        });
-        // Placeholder for sidebar navigation (if it were dynamic)
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('bg-[var(--sidebar-active-bg)]', 'text-white'));
-                e.currentTarget.classList.add('bg-[var(--sidebar-active-bg)]', 'text-white');
-                alert(`Navigating to ${e.currentTarget.textContent.trim()} (simulated).`);
-            });
-        });
+        // Quick Access links are now direct hrefs
+        // document.querySelectorAll('.quick-link-item').forEach(item => {
+        //     item.addEventListener('click', (e) => {
+        //         e.preventDefault(); // Prevent default if handling with JS
+        //         // window.location.href = correct_path_here;
+        //         alert(`Navigating to ${e.target.dataset.target} section (simulated).`);
+        //     });
+        // });
 
+        // Pending action items are now direct hrefs
+        // document.querySelectorAll('.pending-action-item').forEach(item => {
+        //     item.addEventListener('click', (e) => {
+        //         e.preventDefault(); // Prevent default if handling with JS
+        //         // const userId = e.target.dataset.userId;
+        //         // const assetId = e.target.dataset.assetId;
+        //         // if (userId) window.location.href = `2 User Detail View & Management Actions.html?userId=${userId}`;
+        //         // if (assetId) window.location.href = `4 Asset Review & Approval Page.html?assetId=${assetId}`;
+        //     });
+        // });
+
+        // Sidebar navigation links are now direct hrefs
+        // document.querySelectorAll('#adminSidebarNav .nav-item').forEach(item => {
+        //     item.addEventListener('click', (e) => {
+        //         // This logic would be for active state highlighting if not a full page reload
+        //         // document.querySelectorAll('#adminSidebarNav .nav-item').forEach(i => i.classList.remove('bg-[var(--sidebar-active-bg)]', 'text-white'));
+        //         // e.currentTarget.classList.add('bg-[var(--sidebar-active-bg)]', 'text-white');
+        //         // If it's a real link, no need to alert, browser will navigate.
+        //         // If it's a placeholder, alert:
+        //         if (e.currentTarget.getAttribute('href') === '#') {
+        //             e.preventDefault();
+        //             alert(`Navigating to ${e.currentTarget.textContent.trim()} (simulated).`);
+        //         }
+        //     });
+        // });
     </script>
 </body>
 </html>
+
+[end of 3 Module Platform Operator Admin Panel/0 Admin Dashboard.html]
