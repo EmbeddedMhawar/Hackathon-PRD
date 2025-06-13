@@ -92,10 +92,10 @@
         <div class="flex-1 lg:ml-64"> <!-- Adjust ml for sidebar width -->
             <header class="bg-[var(--white-bg)] shadow-sm flex items-center justify-between px-6 py-3 sticky top-0 z-40">
                 <h1 class="text-xl font-semibold text-[var(--text-primary)]">User Management</h1>
-                 <button id="addNewUserBtn" class="action-button secondary-action-button">
+                 <a href="TBD_add_new_user_form.html" id="addNewUserBtn" class="action-button secondary-action-button">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1.5 inline-block"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
                     Add New User
-                </button>
+                </a>
             </header>
 
             <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -114,7 +114,15 @@
                             <label for="filterAccountStatus" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Account Status</label>
                             <select id="filterAccountStatus" class="form-select"><option value="all">All</option><option value="active">Active</option><option value="suspended">Suspended</option></select>
                         </div>
-                        <button id="applyFiltersBtn" class="action-button primary-action-button w-full">Apply Filters</button>
+                        <div>
+                            <label for="regDateStart" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Reg. Date From:</label>
+                            <input type="date" id="regDateStart" name="regDateStart" class="form-input">
+                        </div>
+                        <div>
+                            <label for="regDateEnd" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Reg. Date To:</label>
+                            <input type="date" id="regDateEnd" name="regDateEnd" class="form-input">
+                        </div>
+                        <button id="applyFiltersBtn" class="action-button primary-action-button w-full lg:col-start-4">Apply Filters</button>
                     </div>
                     <div class="mt-4">
                         <label for="userSearch" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Search Users</label>
@@ -156,7 +164,7 @@
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-approved-bg)] text-[var(--status-approved-text)]">Approved</span></td>
                                 <td class="px-4 py-2 whitespace-nowrap text-sm text-[var(--text-secondary)]">Investor</td>
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-active-bg)] text-[var(--status-active-text)]">Active</span></td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs space-x-2"><a href="#" class="table-action-link user-action" data-action="view" data-user-id="USR001">View</a> <a href="#" class="table-action-link user-action" data-action="edit" data-user-id="USR001">Edit</a> <a href="#" class="table-action-link user-action text-red-600 hover:text-red-800" data-action="suspend" data-user-id="USR001">Suspend</a></td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs space-x-2"><a href="2 User Detail View & Management Actions.html?userId=USR001" class="table-action-link user-action" data-action="view" data-user-id="USR001">View</a> <a href="2 User Detail View & Management Actions.html?edit=true&userId=USR001" class="table-action-link user-action" data-action="edit" data-user-id="USR001">Edit</a> <a href="#" class="table-action-link user-action text-red-600 hover:text-red-800" data-action="suspend" data-user-id="USR001">Suspend</a> <!-- JS Action --></td>
                             </tr>
                             <!-- Sample User Row 2 -->
                              <tr>
@@ -169,7 +177,7 @@
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-pending-bg)] text-[var(--status-pending-text)]">Pending</span></td>
                                 <td class="px-4 py-2 whitespace-nowrap text-sm text-[var(--text-secondary)]">Asset Owner</td>
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-active-bg)] text-[var(--status-active-text)]">Active</span></td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs space-x-2"><a href="#" class="table-action-link user-action" data-action="view" data-user-id="USR002">View</a> <a href="#" class="table-action-link user-action" data-action="approve_kyc" data-user-id="USR002">Approve KYC</a> <a href="#" class="table-action-link user-action text-orange-600 hover:text-orange-800" data-action="reject_kyc" data-user-id="USR002">Reject KYC</a></td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs space-x-2"><a href="2 User Detail View & Management Actions.html?userId=USR002" class="table-action-link user-action" data-action="view" data-user-id="USR002">View</a> <a href="#" class="table-action-link user-action" data-action="approve_kyc" data-user-id="USR002">Approve KYC</a> <a href="#" class="table-action-link user-action text-orange-600 hover:text-orange-800" data-action="reject_kyc" data-user-id="USR002">Reject KYC</a> <!-- JS Actions --></td>
                             </tr>
                              <!-- Sample User Row 3 -->
                             <tr>
@@ -182,7 +190,7 @@
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-rejected-bg)] text-[var(--status-rejected-text)]">Rejected</span></td>
                                 <td class="px-4 py-2 whitespace-nowrap text-sm text-[var(--text-secondary)]">Investor</td>
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-active-bg)] text-[var(--status-active-text)]">Active</span></td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs space-x-2"><a href="#" class="table-action-link user-action" data-action="view" data-user-id="USR003">View</a> <a href="#" class="table-action-link user-action" data-action="edit" data-user-id="USR003">Edit</a></td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs space-x-2"><a href="2 User Detail View & Management Actions.html?userId=USR003" class="table-action-link user-action" data-action="view" data-user-id="USR003">View</a> <a href="2 User Detail View & Management Actions.html?edit=true&userId=USR003" class="table-action-link user-action" data-action="edit" data-user-id="USR003">Edit</a></td>
                             </tr>
                             <!-- Sample User Row 4 (Admin) -->
                             <tr>
@@ -195,7 +203,7 @@
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-approved-bg)] text-[var(--status-approved-text)]">N/A</span></td>
                                 <td class="px-4 py-2 whitespace-nowrap text-sm text-[var(--text-secondary)]">Admin</td>
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-active-bg)] text-[var(--status-active-text)]">Active</span></td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs space-x-2"><a href="#" class="table-action-link user-action" data-action="view" data-user-id="ADM001">View</a> <a href="#" class="table-action-link user-action" data-action="edit_role" data-user-id="ADM001">Edit Role</a></td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs space-x-2"><a href="2 User Detail View & Management Actions.html?userId=ADM001" class="table-action-link user-action" data-action="view" data-user-id="ADM001">View</a> <a href="#" class="table-action-link user-action" data-action="edit_role" data-user-id="ADM001">Edit Role</a> <!-- JS Action --></td>
                             </tr>
                              <!-- Sample User Row 5 (Suspended) -->
                             <tr>
@@ -208,7 +216,7 @@
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-approved-bg)] text-[var(--status-approved-text)]">Approved</span></td>
                                 <td class="px-4 py-2 whitespace-nowrap text-sm text-[var(--text-secondary)]">Investor</td>
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-suspended-bg)] text-[var(--status-suspended-text)]">Suspended</span></td>
-                                <td class="px-4 py-2 whitespace-nowrap text-xs space-x-2"><a href="#" class="table-action-link user-action" data-action="view" data-user-id="USR004">View</a> <a href="#" class="table-action-link user-action text-green-600 hover:text-green-800" data-action="reactivate" data-user-id="USR004">Reactivate</a></td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs space-x-2"><a href="2 User Detail View & Management Actions.html?userId=USR004" class="table-action-link user-action" data-action="view" data-user-id="USR004">View</a> <a href="#" class="table-action-link user-action text-green-600 hover:text-green-800" data-action="reactivate" data-user-id="USR004">Reactivate</a> <!-- JS Action --></td>
                             </tr>
                         </tbody>
                     </table>
@@ -255,18 +263,23 @@
         userSearchInput.addEventListener('search', () => { if(!userSearchInput.value) performUserSearch(); });
 
 
-        document.querySelectorAll('.user-action').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                const action = e.target.dataset.action;
-                const userId = e.target.dataset.userId;
-                alert(`Action: ${action} for User ID: ${userId} (simulated)`);
-            });
-        });
+        // document.querySelectorAll('.user-action').forEach(button => {
+        //     button.addEventListener('click', (e) => {
+        //         const action = e.target.dataset.action;
+        //         const userId = e.target.dataset.userId;
+        //         if (action === 'view' || action === 'edit') {
+        //             // Navigation handled by href
+        //         } else {
+        //             e.preventDefault();
+        //             alert(`Action: ${action} for User ID: ${userId} (simulated JS action)`);
+        //         }
+        //     });
+        // });
 
-        document.getElementById('addNewUserBtn').addEventListener('click', () => alert('Navigate to Add New User page (simulated)'));
+        // document.getElementById('addNewUserBtn').addEventListener('click', () => alert('Navigate to Add New User page (simulated)')); // Now an <a> tag
 
-        document.querySelectorAll('.pagination-page').forEach(button => {
+        // Pagination JS alerts removed
+        // document.querySelectorAll('.pagination-page').forEach(button => {
             button.addEventListener('click', event => {
                 document.querySelectorAll('.pagination-page').forEach(btn => btn.classList.remove('active'));
                 event.currentTarget.classList.add('active');

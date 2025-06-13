@@ -74,6 +74,7 @@
                     <div class="lg:w-2/5 space-y-6">
                         <img id="mainAssetImage" src="https://via.placeholder.com/600x400.png/019863/FFFFFF?text=Downtown+Art+Gallery" alt="Downtown Art Gallery Loft" class="w-full h-auto object-cover rounded-lg shadow-md">
                         <!-- Optional: Thumbnail Gallery -->
+                        <!-- TODO: Implement Asset Image/Video Gallery here -->
                         <div id="thumbnailGallery" class="grid grid-cols-4 gap-2">
                             <img src="https://via.placeholder.com/150x100.png/019863/FFFFFF?text=Gallery+View+1" alt="Gallery View 1" class="thumbnail-img cursor-pointer rounded border-2 border-transparent hover:border-[var(--primary-color)] transition-all">
                             <img src="https://via.placeholder.com/150x100.png/019863/FFFFFF?text=Gallery+View+2" alt="Gallery View 2" class="thumbnail-img cursor-pointer rounded border-2 border-transparent hover:border-[var(--primary-color)] transition-all">
@@ -81,8 +82,8 @@
                             <div class="flex items-center justify-center bg-gray-100 rounded text-xs text-[var(--text-secondary)] cursor-pointer hover:bg-gray-200">View All (3+)</div>
                         </div>
                         <div class="mt-6 space-y-3">
-                            <button id="investNowBtn" class="primary-cta-button w-full">Invest Now / Buy Tokens</button>
-                            <button id="addToWatchlistBtn" class="secondary-cta-button w-full">Add to Watchlist</button>
+                            <a href="3 Token Purchase Flow.html" id="investNowBtn" class="primary-cta-button w-full">Invest Now / Buy Tokens</a>
+                            <button id="addToWatchlistBtn" class="secondary-cta-button w-full">Add to Watchlist</button> <!-- JS alert removed, functionality TBD -->
                         </div>
                     </div>
 
@@ -115,11 +116,11 @@
                         <section class="mb-6">
                             <h2 class="section-title">Documents</h2>
                             <div class="space-y-2">
-                                <a href="#" class="document-link download-link" data-doc="whitepaper">
+                                <a href="TBD_document_path_whitepaper.pdf" class="document-link download-link" data-doc="whitepaper">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
                                     Project Whitepaper.pdf
                                 </a>
-                                <a href="#" class="document-link download-link" data-doc="due-diligence">
+                                <a href="TBD_document_path_due_diligence.pdf" class="document-link download-link" data-doc="due-diligence">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
                                     Due Diligence Report.pdf
                                 </a>
@@ -139,13 +140,14 @@
                         <section class="mb-6">
                             <h2 class="section-title">Financials & Projections</h2>
                             <div class="h-48 bg-gray-100 flex items-center justify-center rounded-md text-sm text-[var(--text-secondary)]">
+                                <!-- TODO: Implement Financial Projections/Historical Performance Charts here -->
                                 Financial Chart Area (Placeholder for charts/graphs)
                             </div>
                         </section>
 
                         <section class="mb-6">
                              <h2 class="section-title">Q&A / Discussions</h2>
-                             <p class="text-sm text-[var(--text-secondary)]">Have questions? <a href="#" class="text-[var(--link-color)] hover:underline">Join the discussion forum</a> for this asset.</p>
+                             <p class="text-sm text-[var(--text-secondary)]">Have questions? <a href="TBD_forum_link.html" class="text-[var(--link-color)] hover:underline">Join the discussion forum</a> for this asset.</p>
                         </section>
 
                         <section class="mb-6">
@@ -161,14 +163,14 @@
                                     <img src="https://via.placeholder.com/300x200.png/019863/FFFFFF?text=Related+Asset+1" alt="Related Asset 1" class="w-full h-24 object-cover rounded mb-2">
                                     <h4 class="text-sm font-semibold text-[var(--text-primary)]">SoHo Artist Studio</h4>
                                     <p class="text-xs text-[var(--text-secondary)]">$80.00/token</p>
-                                    <a href="#" class="text-xs text-[var(--link-color)] hover:underline mt-1 block">View &rarr;</a>
+                                    <a href="2 Asset Detail Page.html?assetId=RELATED_ASSET_1" class="text-xs text-[var(--link-color)] hover:underline mt-1 block">View &rarr;</a> <!-- TODO: Update assetId -->
                                 </div>
                                 <!-- Mini Asset Card 2 -->
                                 <div class="border border-[var(--border-color)] rounded-lg p-3 hover:shadow-md transition-shadow">
                                      <img src="https://via.placeholder.com/300x200.png/019863/FFFFFF?text=Related+Asset+2" alt="Related Asset 2" class="w-full h-24 object-cover rounded mb-2">
                                     <h4 class="text-sm font-semibold text-[var(--text-primary)]">Historic Landmark Building</h4>
                                     <p class="text-xs text-[var(--text-secondary)]">$250.00/token</p>
-                                    <a href="#" class="text-xs text-[var(--link-color)] hover:underline mt-1 block">View &rarr;</a>
+                                    <a href="2 Asset Detail Page.html?assetId=RELATED_ASSET_2" class="text-xs text-[var(--link-color)] hover:underline mt-1 block">View &rarr;</a> <!-- TODO: Update assetId -->
                                 </div>
                             </div>
                         </section>
@@ -185,15 +187,21 @@
     </div>
 
     <script>
-        document.getElementById('investNowBtn').addEventListener('click', () => alert('Proceed to Token Purchase Flow (simulated)'));
-        document.getElementById('addToWatchlistBtn').addEventListener('click', () => alert('Asset added to watchlist (simulated)'));
+        // Invest Now button is now an <a> tag.
+        // document.getElementById('investNowBtn').addEventListener('click', () => alert('Proceed to Token Purchase Flow (simulated)'));
 
-        document.querySelectorAll('.download-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                alert(`Downloading ${e.target.dataset.doc} (simulated)`);
-            });
-        });
+        const addToWatchlistBtn = document.getElementById('addToWatchlistBtn');
+        if(addToWatchlistBtn) { // Ensure button exists before adding listener
+            addToWatchlistBtn.addEventListener('click', () => alert('Asset added to watchlist (simulated)'));
+        }
+
+        // Document links are now direct hrefs (to placeholders).
+        // document.querySelectorAll('.download-link').forEach(link => {
+        //     link.addEventListener('click', (e) => {
+        //         e.preventDefault();
+        //         alert(`Downloading ${e.target.dataset.doc} (simulated)`);
+        //     });
+        // });
 
         const mainImage = document.getElementById('mainAssetImage');
         const thumbnails = document.querySelectorAll('.thumbnail-img');

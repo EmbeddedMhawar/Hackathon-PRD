@@ -102,7 +102,15 @@
                             <label for="filterReviewer" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Assigned Reviewer</label>
                             <select id="filterReviewer" class="form-select"><option value="all">All</option><option value="Admin1">Admin One</option><option value="Admin2">Admin Two</option><option value="unassigned">Unassigned</option></select>
                         </div>
-                        <button id="applyFiltersBtn" class="action-button primary-action-button w-full">Apply Filters</button>
+                         <div>
+                            <label for="subDateStart" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Submission Date From:</label>
+                            <input type="date" id="subDateStart" name="subDateStart" class="form-input">
+                        </div>
+                        <div>
+                            <label for="subDateEnd" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">To:</label>
+                            <input type="date" id="subDateEnd" name="subDateEnd" class="form-input">
+                        </div>
+                        <button id="applyFiltersBtn" class="action-button primary-action-button w-full lg:col-start-4">Apply Filters</button>
                     </div>
                     <div class="mt-4">
                         <label for="assetSearch" class="block text-xs font-medium text-[var(--text-secondary)] mb-1">Search Assets</label>
@@ -114,6 +122,12 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- Summary Statistics Placeholder -->
+                <div class="mt-4 mb-6 p-4 bg-gray-100 rounded-lg text-center text-sm text-gray-500">
+                    <!-- TODO: Summary statistics here (e.g., Total Pending: X, Total Under Review: Y) -->
+                    Summary statistics will be displayed here.
+                </div>
 
                 <!-- Asset Submissions Table -->
                 <div class="overflow-x-auto shadow-md border border-[var(--border-color)] rounded-lg bg-[var(--white-bg)]">
@@ -139,7 +153,7 @@
                                 <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">2023-10-01</td>
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-approved-bg)] text-[var(--status-approved-text)]">Approved</span></td>
                                 <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Admin One</td>
-                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><button class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST001">View/Review</button></td>
+                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><a href="4 Asset Review & Approval Page.html?assetId=AST001" class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST001">View/Review</a></td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-2 whitespace-nowrap text-xs font-mono">AST002</td>
@@ -149,7 +163,7 @@
                                 <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">2023-11-15</td>
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-pending-bg)] text-[var(--status-pending-text)]">Pending Initial Review</span></td>
                                 <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Unassigned</td>
-                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><button class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST002">View/Review</button><button class="table-action-button-sm border-blue-500 text-blue-600 hover:bg-blue-50 asset-action" data-action="assign" data-id="AST002">Assign</button></td>
+                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><a href="4 Asset Review & Approval Page.html?assetId=AST002" class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST002">View/Review</a><button class="table-action-button-sm border-blue-500 text-blue-600 hover:bg-blue-50 asset-action" data-action="assign" data-id="AST002">Assign</button></td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-2 whitespace-nowrap text-xs font-mono">AST003</td>
@@ -159,7 +173,7 @@
                                 <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">2024-01-05</td>
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-under-review-bg)] text-[var(--status-under-review-text)]">Under Review</span></td>
                                 <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Admin Two</td>
-                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><button class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST003">View/Review</button></td>
+                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><a href="4 Asset Review & Approval Page.html?assetId=AST003" class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST003">View/Review</a></td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-2 whitespace-nowrap text-xs font-mono">AST004</td>
@@ -169,7 +183,7 @@
                                 <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">2023-09-01</td>
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-rejected-bg)] text-[var(--status-rejected-text)]">Rejected</span></td>
                                 <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Admin One</td>
-                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><button class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST004">View/Review</button></td>
+                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><a href="4 Asset Review & Approval Page.html?assetId=AST004" class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST004">View/Review</a></td>
                             </tr>
                              <tr>
                                 <td class="px-4 py-2 whitespace-nowrap text-xs font-mono">AST005</td>
@@ -179,7 +193,7 @@
                                 <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">2024-01-20</td>
                                 <td class="px-4 py-2 whitespace-nowrap"><span class="status-pill bg-[var(--status-awaiting-info-bg)] text-[var(--status-awaiting-info-text)]">Awaiting More Info</span></td>
                                 <td class="px-4 py-2 whitespace-nowrap text-[var(--text-secondary)]">Admin Two</td>
-                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><button class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST005">View/Review</button></td>
+                                <td class="px-4 py-2 whitespace-nowrap space-x-1"><a href="4 Asset Review & Approval Page.html?assetId=AST005" class="table-action-button-sm border-gray-300 hover:bg-gray-100 asset-action" data-action="view" data-id="AST005">View/Review</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -223,16 +237,21 @@
         assetSearchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performAssetSearch(); });
         assetSearchInput.addEventListener('search', () => { if(!assetSearchInput.value) performAssetSearch(); });
 
-        document.querySelectorAll('.asset-action').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                const action = e.target.dataset.action;
-                const assetId = e.target.dataset.id;
-                alert(`Action: ${action} for Asset ID: ${assetId} (simulated)`);
-            });
-        });
+        // document.querySelectorAll('.asset-action').forEach(button => {
+        //     button.addEventListener('click', (e) => {
+        //         const action = e.target.dataset.action;
+        //         const assetId = e.target.dataset.id;
+        //         if (action === 'view') {
+        //             // Navigation handled by href
+        //         } else {
+        //             e.preventDefault();
+        //             alert(`Action: ${action} for Asset ID: ${assetId} (simulated JS action)`);
+        //         }
+        //     });
+        // });
 
-        document.querySelectorAll('.pagination-page').forEach(button => {
+        // Pagination JS alerts removed
+        // document.querySelectorAll('.pagination-page').forEach(button => {
             button.addEventListener('click', event => {
                 document.querySelectorAll('.pagination-page').forEach(btn => btn.classList.remove('active'));
                 event.currentTarget.classList.add('active');
